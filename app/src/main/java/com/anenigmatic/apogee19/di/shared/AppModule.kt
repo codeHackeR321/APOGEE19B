@@ -10,6 +10,8 @@ import com.anenigmatic.apogee19.screens.events.data.retrofit.EventsApi
 import com.anenigmatic.apogee19.screens.events.data.room.EventsDao
 import com.anenigmatic.apogee19.screens.events.data.storage.FilterStorage
 import com.anenigmatic.apogee19.screens.events.data.storage.FilterStorageImpl
+import com.anenigmatic.apogee19.screens.shared.data.UserRepository
+import com.anenigmatic.apogee19.screens.shared.data.UserRepositoryImpl
 import com.anenigmatic.apogee19.screens.shared.data.retrofit.BaseInterceptor
 import com.anenigmatic.apogee19.screens.shared.data.retrofit.UserApi
 import com.anenigmatic.apogee19.screens.shared.data.room.AppDatabase
@@ -29,6 +31,12 @@ class AppModule(private val application: Application) {
     @Provides
     fun providesEventRepository(filterStorage: FilterStorage, eventsDao: EventsDao, eventsApi: EventsApi, networkDetails: NetworkDetails): EventRepository {
         return EventRepositoryImpl(filterStorage, eventsDao, eventsApi, networkDetails)
+    }
+
+    @Singleton
+    @Provides
+    fun providesUserRepository(sharedPreferences: SharedPreferences, userApi: UserApi): UserRepository {
+        return UserRepositoryImpl(sharedPreferences, userApi)
     }
 
     @Singleton
