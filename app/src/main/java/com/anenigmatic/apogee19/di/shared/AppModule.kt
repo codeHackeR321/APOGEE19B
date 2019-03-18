@@ -11,6 +11,7 @@ import com.anenigmatic.apogee19.screens.events.data.room.EventsDao
 import com.anenigmatic.apogee19.screens.events.data.storage.FilterStorage
 import com.anenigmatic.apogee19.screens.events.data.storage.FilterStorageImpl
 import com.anenigmatic.apogee19.screens.shared.data.retrofit.BaseInterceptor
+import com.anenigmatic.apogee19.screens.shared.data.retrofit.UserApi
 import com.anenigmatic.apogee19.screens.shared.data.room.AppDatabase
 import com.anenigmatic.apogee19.screens.shared.util.NetworkDetails
 import dagger.Module
@@ -38,6 +39,12 @@ class AppModule(private val application: Application) {
 
     @Singleton
     @Provides
+    fun providesUserApi(retrofit: Retrofit): UserApi {
+        return retrofit.create(UserApi::class.java)
+    }
+
+    @Singleton
+    @Provides
     fun providesEventsDao(appDatabase: AppDatabase): EventsDao {
         return appDatabase.getEventsDao()
     }
@@ -58,7 +65,7 @@ class AppModule(private val application: Application) {
     @Provides
     fun providesRetrofit(): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("https://bits-apogee.org/")
+            .baseUrl("http://test.bits-apogee.org/")
             .client(OkHttpClient().newBuilder().addInterceptor(BaseInterceptor()).build())
             .addConverterFactory(MoshiConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
