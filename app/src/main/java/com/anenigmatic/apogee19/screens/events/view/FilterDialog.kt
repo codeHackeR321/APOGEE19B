@@ -94,7 +94,7 @@ class FilterDialog : DialogFragment(), FiltersAdapter.ClickListener {
                 }
                 false -> {
                     TextViewCompat.setTextAppearance(rootPOV.showOnlyOngoingToggleBTN, R.style.InactiveFilterButton)
-                    rootPOV.showOnlyOngoingToggleBTN.setBackgroundResource(R.drawable.sh_rounded_rectangle_outline_08dp)
+                    rootPOV.showOnlyOngoingToggleBTN.setBackgroundResource(R.drawable.sh_rounded_rectangle_thin_outline_08dp)
 
                     rootPOV.showOnlyOngoingToggleBTN.backgroundTintList = null
 
@@ -120,7 +120,7 @@ class FilterDialog : DialogFragment(), FiltersAdapter.ClickListener {
                 }
                 false -> {
                     TextViewCompat.setTextAppearance(rootPOV.showOnlyStarredToggleBTN, R.style.InactiveFilterButton)
-                    rootPOV.showOnlyStarredToggleBTN.setBackgroundResource(R.drawable.sh_rounded_rectangle_outline_08dp)
+                    rootPOV.showOnlyStarredToggleBTN.setBackgroundResource(R.drawable.sh_rounded_rectangle_thin_outline_08dp)
 
                     rootPOV.showOnlyStarredToggleBTN.backgroundTintList = null
 

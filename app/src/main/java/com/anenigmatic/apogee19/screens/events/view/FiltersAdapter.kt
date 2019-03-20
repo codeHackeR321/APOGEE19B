@@ -49,7 +49,7 @@ class FiltersAdapter(private val listener: ClickListener) : RecyclerView.Adapter
             }
             false -> {
                 TextViewCompat.setTextAppearance(holder.nameLBL, R.style.InactiveFilterButton)
-                holder.nameLBL.setBackgroundResource(R.drawable.sh_rounded_rectangle_outline_08dp)
+                holder.nameLBL.setBackgroundResource(R.drawable.sh_rounded_rectangle_thin_outline_08dp)
 
                 holder.nameLBL.backgroundTintList = null
             }

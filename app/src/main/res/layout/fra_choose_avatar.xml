@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootPOV"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gd_blu01_blu02">
+
+    <ImageView
+        android:id="@+id/backgroundPatternIMG"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ll_background_pattern" />
+
+    <TextView
+        android:id="@+id/greetingLBL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="40dp"
+        android:fontFamily="@font/google_sans_medium"
+        android:text="Welcome!\nChoose an avatar"
+        android:textColor="@color/wht01"
+        android:textSize="26sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/cardBackgroundPOV"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/sh_top_half_rounded_rectangle_16dp"
+        android:backgroundTint="@color/wht01"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/greetingLBL" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/avatarsRCY"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="16dp"
+        android:clipToPadding="false"
+        android:numColumns="auto_fit"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:paddingBottom="100dp"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/cardBackgroundPOV"
+        tools:listitem="@layout/box_avatar"
+        tools:spanCount="3" />
+
+    <TextView
+        android:id="@+id/proceedBTN"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/sh_rounded_rectangle_08dp"
+        android:backgroundTint="@color/blu05"
+        android:fontFamily="@font/google_sans_medium"
+        android:paddingStart="42dp"
+        android:paddingTop="14dp"
+        android:paddingEnd="42dp"
+        android:paddingBottom="14dp"
+        android:text="Proceed"
+        android:textColor="@color/wht01"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/loaderPBR"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/blu06"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/cardBackgroundPOV"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/cardBackgroundPOV" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="20dp"
-    android:background="@drawable/sh_rounded_rectangle_outline_08dp"
+    android:background="@drawable/sh_rounded_rectangle_thin_outline_08dp"
     android:ellipsize="end"
     android:lines="1"
     android:paddingStart="12dp"

@@ -5,6 +5,12 @@
     <color name="colorAccent">#D81B60</color>
 
     <color name="blk01">#FF000000</color>
+    <color name="blu01">#FFADD1FF</color>
+    <color name="blu02">#FF3643EE</color>
+    <color name="blu03">#FF4B8EFF</color>
+    <color name="blu04">#FFC8D1F4</color>
+    <color name="blu05">#FF3C8FFF</color>
+    <color name="blu06">#FF495FEE</color>
     <color name="gry01">#FF858585</color>
     <color name="gry02">#FFB1B1B1</color>
     <color name="pnk01">#FFEBA7FF</color>
@@ -20,4 +26,6 @@
     <color name="wht02">#28FFFFFF</color>
     <color name="yel01">#FFFFE0AC</color>
     <color name="yel02">#FFEA9144</color>
+
+    <color name="clear">#00FFFFFF</color>
 </resources>
