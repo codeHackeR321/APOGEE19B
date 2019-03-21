@@ -23,9 +23,10 @@ class MainActivity : AppCompatActivity() {
                 .add(R.id.navHostFRM, EventListFragment())
                 .commitNow()
 
-            setupBottomNavigation(3)
+            val eventsTabPosition = 3
+            setupBottomNavigation(eventsTabPosition, true)
         } else {
-            setupBottomNavigation(savedInstanceState.getInt("BOTTOM_NAV_CURRENT_ITEM"))
+            setupBottomNavigation(savedInstanceState.getInt("BOTTOM_NAV_CURRENT_ITEM"), false)
         }
     }
 
@@ -36,7 +37,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun setupBottomNavigation(currentItem: Int) {
+    private fun setupBottomNavigation(currentItem: Int, useCallback: Boolean) {
         val navigationAdapter = AHBottomNavigationAdapter(this, R.menu.mn_bottom_nav)
         navigationAdapter.setupWithBottomNavigation(bottomNavAHB)
 
@@ -61,23 +62,43 @@ class MainActivity : AppCompatActivity() {
                         Toast.makeText(this, "Orders", Toast.LENGTH_SHORT).show()
                     }
                     3 -> {
-                        bottomNavAHB.accentColor = ContextCompat.getColor(this, R.color.vio07)
-                        bottomNavAHB.inactiveColor = ContextCompat.getColor(this, R.color.pnk01)
+
                     }
                     4 -> {
                         supportFragmentManager.beginTransaction()
                             .replace(R.id.navHostFRM, MoreFragment())
                             .addToBackStack(null)
                             .commitAllowingStateLoss()
-
-                        bottomNavAHB.accentColor = ContextCompat.getColor(this, R.color.yel02)
-                        bottomNavAHB.inactiveColor = ContextCompat.getColor(this, R.color.yel01)
                     }
                 }
             }
             true
         }
 
-        bottomNavAHB.setCurrentItem(currentItem, true)
+        bottomNavAHB.setCurrentItem(currentItem, useCallback)
+        bottomNavAHB.colorize(currentItem)
+    }
+
+    // Sets the bottom navigation's accent and inactive colors depending upon which is the current item.
+    private fun AHBottomNavigation.colorize(currentItem: Int) {
+        when(currentItem) {
+            0 -> {
+
+            }
+            1 -> {
+
+            }
+            2 -> {
+
+            }
+            3 -> {
+                bottomNavAHB.accentColor = ContextCompat.getColor(this@MainActivity, R.color.vio07)
+                bottomNavAHB.inactiveColor = ContextCompat.getColor(this@MainActivity, R.color.pnk01)
+            }
+            4 -> {
+                bottomNavAHB.accentColor = ContextCompat.getColor(this@MainActivity, R.color.yel02)
+                bottomNavAHB.inactiveColor = ContextCompat.getColor(this@MainActivity, R.color.yel01)
+            }
+        }
     }
 }
