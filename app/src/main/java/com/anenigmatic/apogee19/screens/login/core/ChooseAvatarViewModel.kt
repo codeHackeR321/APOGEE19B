@@ -32,7 +32,7 @@ class ChooseAvatarViewModel(private val uRepo: UserRepository) : ViewModel() {
             .flatMapSingle { avatars ->
                 uRepo.getUser()
                     .toSingle()
-                    .map { user -> user.avatarId }
+                    .map { user -> user.avatar.id }
                     .map { chosenAvatarId -> UiOrder.ShowWorkingState(avatars, chosenAvatarId) }
             }
             .subscribeOn(Schedulers.io())

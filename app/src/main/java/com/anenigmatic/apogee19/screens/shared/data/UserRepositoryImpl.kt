@@ -25,10 +25,19 @@ class UserRepositoryImpl(private val prefs: SharedPreferences, private val uApi:
         const val isBitsian = "IS_BITSIAN"
         const val balance = "BALANCE"
         const val tickets = "TICKETS"
-        const val avatar = "AVATAR"
+        const val avatarId = "AVATAR_ID"
         const val coins = "COINS"
     }
 
+
+    private val avatars = listOf(
+        Avatar(0, "android.resource://com.anenigmatic.apogee19/${R.drawable.ic_google_logo}"),
+        Avatar(1, "android.resource://com.anenigmatic.apogee19/${R.drawable.ic_google_logo}"),
+        Avatar(2, "android.resource://com.anenigmatic.apogee19/${R.drawable.ic_google_logo}"),
+        Avatar(3, "android.resource://com.anenigmatic.apogee19/${R.drawable.ic_google_logo}"),
+        Avatar(4, "android.resource://com.anenigmatic.apogee19/${R.drawable.ic_google_logo}"),
+        Avatar(5, "android.resource://com.anenigmatic.apogee19/${R.drawable.ic_google_logo}")
+    )
 
     private val defaultAvatar = 0L
 
@@ -43,12 +52,13 @@ class UserRepositoryImpl(private val prefs: SharedPreferences, private val uApi:
                 val isBitsian = prefs.getBoolean(Keys.isBitsian, false)
                 val balance = prefs.getInt(Keys.balance, 0)
                 val tickets = prefs.getStringSet(Keys.tickets, mutableSetOf()).toTickets().sortedBy { ticket -> ticket.name }
-                val avatar = prefs.getLong(Keys.avatar, defaultAvatar)
+                val avatarId = prefs.getLong(Keys.avatarId, defaultAvatar)
                 val coins = prefs.getInt(Keys.coins, 0)
 
                 if(id == 0L || name == null || jwt == null || qrCode == null) {
                     emitter.onComplete()
                 } else {
+                    val avatar = avatars.first { avatar -> avatar.id == avatarId }
                     emitter.onSuccess(User(id, name, jwt, qrCode, isBitsian, balance, tickets, avatar, coins))
                 }
             } catch(e: Exception) {
@@ -87,7 +97,7 @@ class UserRepositoryImpl(private val prefs: SharedPreferences, private val uApi:
                     putBoolean(Keys.isBitsian, false)
                     putInt(Keys.balance, 0)
                     putStringSet(Keys.tickets, mutableSetOf())
-                    putLong(Keys.avatar, defaultAvatar)
+                    putLong(Keys.avatarId, defaultAvatar)
                     putInt(Keys.coins, 0)
                 }
                 emitter.onComplete()
@@ -98,14 +108,7 @@ class UserRepositoryImpl(private val prefs: SharedPreferences, private val uApi:
     }
 
     override fun getAllAvatars(): Flowable<List<Avatar>> {
-        return Flowable.just(listOf(
-            Avatar(0, "android.resource://com.anenigmatic.apogee19/${R.drawable.ic_google_logo}"),
-            Avatar(1, "android.resource://com.anenigmatic.apogee19/${R.drawable.ic_google_logo}"),
-            Avatar(2, "android.resource://com.anenigmatic.apogee19/${R.drawable.ic_google_logo}"),
-            Avatar(3, "android.resource://com.anenigmatic.apogee19/${R.drawable.ic_google_logo}"),
-            Avatar(4, "android.resource://com.anenigmatic.apogee19/${R.drawable.ic_google_logo}"),
-            Avatar(5, "android.resource://com.anenigmatic.apogee19/${R.drawable.ic_google_logo}")
-        ))
+        return Flowable.just(avatars)
     }
 
     override fun chooseAvatar(avatarId: Long): Completable {
@@ -122,7 +125,7 @@ class UserRepositoryImpl(private val prefs: SharedPreferences, private val uApi:
         return uApi.chooseAvatar(jwt, body)
             .doOnComplete {
                 prefs.edit(true) {
-                    putLong(Keys.avatar, avatarId)
+                    putLong(Keys.avatarId, avatarId)
                 }
             }
     }
@@ -143,7 +146,7 @@ class UserRepositoryImpl(private val prefs: SharedPreferences, private val uApi:
                     putBoolean(Keys.isBitsian, isBitsian)
                     putInt(Keys.balance, 0)
                     putStringSet(Keys.tickets, mutableSetOf())
-                    putLong(Keys.avatar, 0)
+                    putLong(Keys.avatarId, 0)
                     putInt(Keys.coins, 0)
                 }
             }
