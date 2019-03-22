@@ -29,9 +29,8 @@ class ChooseAvatarViewModel(private val uRepo: UserRepository) : ViewModel() {
         orderData.asMut().value = UiOrder.ShowLoadingState
 
         uRepo.getAllAvatars()
-            .flatMapSingle { avatars ->
+            .flatMap { avatars ->
                 uRepo.getUser()
-                    .toSingle()
                     .map { user -> user.avatar.id }
                     .map { chosenAvatarId -> UiOrder.ShowWorkingState(avatars, chosenAvatarId) }
             }

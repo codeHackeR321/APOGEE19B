@@ -8,6 +8,7 @@ import com.anenigmatic.apogee19.screens.shared.core.Ticket
 import com.anenigmatic.apogee19.screens.shared.core.User
 import com.anenigmatic.apogee19.screens.shared.data.retrofit.UserApi
 import com.anenigmatic.apogee19.screens.shared.util.toRequestBody
+import io.reactivex.BackpressureStrategy
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Maybe
@@ -42,8 +43,8 @@ class UserRepositoryImpl(private val prefs: SharedPreferences, private val uApi:
     private val defaultAvatar = 0L
 
 
-    override fun getUser(): Maybe<User> {
-        return Maybe.create { emitter ->
+    override fun getUser(): Flowable<User> {
+        return Flowable.create({ emitter ->
             try {
                 val id = prefs.getLong(Keys.id, 0)
                 val name = prefs.getString(Keys.name, null)
@@ -56,15 +57,15 @@ class UserRepositoryImpl(private val prefs: SharedPreferences, private val uApi:
                 val coins = prefs.getInt(Keys.coins, 0)
 
                 if(id == 0L || name == null || jwt == null || qrCode == null) {
-                    emitter.onComplete()
+                    emitter.onError(Exception("User isn't logged-in"))
                 } else {
                     val avatar = avatars.first { avatar -> avatar.id == avatarId }
-                    emitter.onSuccess(User(id, name, jwt, qrCode, isBitsian, balance, tickets, avatar, coins))
+                    emitter.onNext(User(id, name, jwt, qrCode, isBitsian, balance, tickets, avatar, coins))
                 }
             } catch(e: Exception) {
                 emitter.onError(e)
             }
-        }
+        }, BackpressureStrategy.LATEST)
     }
 
     override fun loginBitsian(idToken: String): Completable {

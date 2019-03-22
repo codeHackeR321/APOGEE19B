@@ -13,13 +13,13 @@ import io.reactivex.Maybe
 interface UserRepository {
 
     /**
-     * Gives the currently logged-in user. If no user is logged-in,it gives
-     * Maybe.empty().
+     * Gives the currently logged-in user. If no user is logged-in, onError
+     * is called.
      *
      * Note that the user details might be out of date. To get the most up-
      * to-date details, use the [refreshDetails] method.
      * */
-    fun getUser(): Maybe<User>
+    fun getUser(): Flowable<User>
 
     /**
      * Attempts to login the user as bitsian using their BITS mail + Google
