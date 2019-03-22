@@ -72,6 +72,7 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
+            bottomNavAHB.colorize(position)
             true
         }
 
