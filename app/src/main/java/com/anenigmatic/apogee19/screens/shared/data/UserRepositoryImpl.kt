@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import androidx.core.content.edit
 import com.anenigmatic.apogee19.R
 import com.anenigmatic.apogee19.screens.shared.core.Avatar
+import com.anenigmatic.apogee19.screens.shared.core.Ticket
 import com.anenigmatic.apogee19.screens.shared.core.User
 import com.anenigmatic.apogee19.screens.shared.data.retrofit.UserApi
 import com.anenigmatic.apogee19.screens.shared.util.toRequestBody
@@ -21,6 +22,9 @@ class UserRepositoryImpl(private val prefs: SharedPreferences, private val uApi:
         const val name = "USER_NAME"
         const val jwt = "JWT"
         const val qrCode = "QR_CODE"
+        const val isBitsian = "IS_BITSIAN"
+        const val balance = "BALANCE"
+        const val tickets = "TICKETS"
         const val avatar = "AVATAR"
         const val coins = "COINS"
     }
@@ -36,13 +40,16 @@ class UserRepositoryImpl(private val prefs: SharedPreferences, private val uApi:
                 val name = prefs.getString(Keys.name, null)
                 val jwt = prefs.getString(Keys.jwt, null)
                 val qrCode = prefs.getString(Keys.qrCode, null)
+                val isBitsian = prefs.getBoolean(Keys.isBitsian, false)
+                val balance = prefs.getInt(Keys.balance, 0)
+                val tickets = prefs.getStringSet(Keys.tickets, mutableSetOf()).toTickets().sortedBy { ticket -> ticket.name }
                 val avatar = prefs.getLong(Keys.avatar, defaultAvatar)
                 val coins = prefs.getInt(Keys.coins, 0)
 
                 if(id == 0L || name == null || jwt == null || qrCode == null) {
                     emitter.onComplete()
                 } else {
-                    emitter.onSuccess(User(id, name, jwt, qrCode, avatar, coins))
+                    emitter.onSuccess(User(id, name, jwt, qrCode, isBitsian, balance, tickets, avatar, coins))
                 }
             } catch(e: Exception) {
                 emitter.onError(e)
@@ -56,7 +63,7 @@ class UserRepositoryImpl(private val prefs: SharedPreferences, private val uApi:
             put("avatar", defaultAvatar)
         }.toRequestBody()
 
-        return login(body)
+        return login(body, true)
     }
 
     override fun loginOutstee(username: String, password: String): Completable {
@@ -66,7 +73,7 @@ class UserRepositoryImpl(private val prefs: SharedPreferences, private val uApi:
             put("avatar", defaultAvatar)
         }.toRequestBody()
 
-        return login(body)
+        return login(body, false)
     }
 
     override fun logout(): Completable {
@@ -77,6 +84,9 @@ class UserRepositoryImpl(private val prefs: SharedPreferences, private val uApi:
                     putString(Keys.name, null)
                     putString(Keys.jwt, null)
                     putString(Keys.qrCode, null)
+                    putBoolean(Keys.isBitsian, false)
+                    putInt(Keys.balance, 0)
+                    putStringSet(Keys.tickets, mutableSetOf())
                     putLong(Keys.avatar, defaultAvatar)
                     putInt(Keys.coins, 0)
                 }
@@ -122,7 +132,7 @@ class UserRepositoryImpl(private val prefs: SharedPreferences, private val uApi:
     }
 
 
-    private fun login(body: RequestBody): Completable {
+    private fun login(body: RequestBody, isBitsian: Boolean): Completable {
         return uApi.login(body)
             .doOnSuccess { responseUser ->
                 prefs.edit(commit = true) {
@@ -130,10 +140,20 @@ class UserRepositoryImpl(private val prefs: SharedPreferences, private val uApi:
                     putString(Keys.name, responseUser.name)
                     putString(Keys.jwt, "JWT ${responseUser.jwt}")
                     putString(Keys.qrCode, responseUser.qrCode)
+                    putBoolean(Keys.isBitsian, isBitsian)
+                    putInt(Keys.balance, 0)
+                    putStringSet(Keys.tickets, mutableSetOf())
                     putLong(Keys.avatar, 0)
                     putInt(Keys.coins, 0)
                 }
             }
             .ignoreElement()
+    }
+
+
+    private fun MutableSet<String>.toTickets(): List<Ticket> {
+        return this.map { str ->
+            Ticket(str.substringBefore("<|>"), str.substringAfter("<|>").toInt())
+        }
     }
 }
