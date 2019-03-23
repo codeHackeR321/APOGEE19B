@@ -12,9 +12,13 @@ import com.anenigmatic.apogee19.screens.events.data.storage.FilterStorage
 import com.anenigmatic.apogee19.screens.events.data.storage.FilterStorageImpl
 import com.anenigmatic.apogee19.screens.shared.data.UserRepository
 import com.anenigmatic.apogee19.screens.shared.data.UserRepositoryImpl
+import com.anenigmatic.apogee19.screens.shared.data.firebase.UserWatcher
+import com.anenigmatic.apogee19.screens.shared.data.firebase.UserWatcherImpl
 import com.anenigmatic.apogee19.screens.shared.data.retrofit.BaseInterceptor
 import com.anenigmatic.apogee19.screens.shared.data.retrofit.UserApi
 import com.anenigmatic.apogee19.screens.shared.data.room.AppDatabase
+import com.anenigmatic.apogee19.screens.shared.data.storage.UserStorage
+import com.anenigmatic.apogee19.screens.shared.data.storage.UserStorageImpl
 import com.anenigmatic.apogee19.screens.shared.util.NetworkDetails
 import dagger.Module
 import dagger.Provides
@@ -35,8 +39,14 @@ class AppModule(private val application: Application) {
 
     @Singleton
     @Provides
-    fun providesUserRepository(sharedPreferences: SharedPreferences, userApi: UserApi): UserRepository {
-        return UserRepositoryImpl(sharedPreferences, userApi)
+    fun providesUserRepository(userStorage: UserStorage, userApi: UserApi, userWatcher: UserWatcher): UserRepository {
+        return UserRepositoryImpl(userStorage, userApi, userWatcher)
+    }
+
+    @Singleton
+    @Provides
+    fun providesUserWatcher(): UserWatcher {
+        return UserWatcherImpl()
     }
 
     @Singleton
@@ -65,8 +75,20 @@ class AppModule(private val application: Application) {
 
     @Singleton
     @Provides
+    fun providesUserStorage(sharedPreferences: SharedPreferences): UserStorage {
+        return UserStorageImpl(sharedPreferences)
+    }
+
+    @Singleton
+    @Provides
     fun providesNetworkDetails(application: Application): NetworkDetails {
         return NetworkDetails(application)
+    }
+
+    @Singleton
+    @Provides
+    fun providesProfileWatcher(): UserWatcherImpl {
+        return UserWatcherImpl()
     }
 
     @Singleton
