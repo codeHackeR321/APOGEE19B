@@ -14,4 +14,10 @@ interface UserApi {
 
     @POST("2019/wallet/auth/avatar")
     fun chooseAvatar(@Header("Authorization") jwt: String, @Body body: RequestBody): Completable
+
+    @POST("2019/wallet/monetary/add/swd")
+    fun addMoney(@Header("Authorization") jwt: String, @Body body: RequestBody): Completable
+
+    @POST("2019/wallet/monetary/transfer")
+    fun transferMoney(@Header("Authorization") jwt: String, @Body body: RequestBody): Completable
 }

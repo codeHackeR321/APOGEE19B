@@ -84,6 +84,29 @@ class UserRepositoryImpl(
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
+    override fun addMoney(amount: Int): Completable {
+        return uStorage.getUserData()
+            .firstOrError()
+            .flatMapCompletable { userData ->
+                val body = JSONObject().apply {
+                    put("amount", amount)
+                }.toRequestBody()
+                uApi.addMoney(userData.jwt, body)
+            }
+    }
+
+    override fun transferMoney(amount: Int, receivingQrCode: String): Completable {
+        return uStorage.getUserData()
+            .firstOrError()
+            .flatMapCompletable { userData ->
+                val body = JSONObject().apply {
+                    put("amount", amount)
+                    put("qr_code", receivingQrCode)
+                }.toRequestBody()
+                uApi.transferMoney(userData.jwt, body)
+            }
+    }
+
 
     private fun login(body: RequestBody, isBitsian: Boolean): Completable {
         return uApi.login(body)

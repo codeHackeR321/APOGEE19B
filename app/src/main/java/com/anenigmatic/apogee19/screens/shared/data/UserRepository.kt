@@ -69,4 +69,16 @@ interface UserRepository {
      * Makes the app get the most up-to-date user details from the backend.
      * */
     fun refreshDetails(): Completable
+
+    /**
+     * Adds money to the user's account from their SWD account. The passed-
+     * in amount is in INR.
+     * */
+    fun addMoney(amount: Int): Completable
+
+    /**
+     * Transfers money to user  associated with the  passed-in QR Code. The
+     * passed-in amount is in INR.
+     * */
+    fun transferMoney(amount: Int, receivingQrCode: String): Completable
 }
