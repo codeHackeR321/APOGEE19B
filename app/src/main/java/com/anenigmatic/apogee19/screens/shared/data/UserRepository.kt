@@ -2,9 +2,9 @@ package com.anenigmatic.apogee19.screens.shared.data
 
 import com.anenigmatic.apogee19.screens.shared.core.Avatar
 import com.anenigmatic.apogee19.screens.shared.core.User
+import com.anenigmatic.apogee19.screens.shared.util.Optional
 import io.reactivex.Completable
 import io.reactivex.Flowable
-import io.reactivex.Maybe
 
 /**
  * Deals with all the user related functions such as: authentication, user-
@@ -13,13 +13,13 @@ import io.reactivex.Maybe
 interface UserRepository {
 
     /**
-     * Gives the currently logged-in user. If no user is logged-in, onError
-     * is called.
+     * Gives the currently logged-in user.  If there is no  logged-in user,
+     * Optional.None is given.
      *
      * Note that the user details might be out of date. To get the most up-
      * to-date details, use the [refreshDetails] method.
      * */
-    fun getUser(): Flowable<User>
+    fun getUser(): Flowable<Optional<User>>
 
     /**
      * Attempts to login the user as bitsian using their BITS mail + Google

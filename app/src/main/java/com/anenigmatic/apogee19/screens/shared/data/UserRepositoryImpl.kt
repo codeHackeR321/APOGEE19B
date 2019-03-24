@@ -4,9 +4,12 @@ import com.anenigmatic.apogee19.R
 import com.anenigmatic.apogee19.screens.shared.core.Avatar
 import com.anenigmatic.apogee19.screens.shared.core.User
 import com.anenigmatic.apogee19.screens.shared.data.firebase.UserWatcher
+import com.anenigmatic.apogee19.screens.shared.data.firebase.UserWatcherData
 import com.anenigmatic.apogee19.screens.shared.data.retrofit.UserApi
 import com.anenigmatic.apogee19.screens.shared.data.storage.UserStorageData
 import com.anenigmatic.apogee19.screens.shared.data.storage.UserStorage
+import com.anenigmatic.apogee19.screens.shared.util.Optional
+import com.anenigmatic.apogee19.screens.shared.util.requireSome
 import com.anenigmatic.apogee19.screens.shared.util.toRequestBody
 import io.reactivex.Completable
 import io.reactivex.Flowable
@@ -29,15 +32,21 @@ class UserRepositoryImpl(
     )
 
 
-    override fun getUser(): Flowable<User> {
+    override fun getUser(): Flowable<Optional<User>> {
         return uStorage.getUserData()
             .switchMap { storageData ->
-                val avatar = avatars[storageData.avatarId.toInt()]
-                uWatcher.watchUserId(storageData.id, storageData.isBitsian)
-                uWatcher.getUserData()
-                    .map { watcherData ->
-                        User(storageData.id, storageData.name, storageData.jwt, storageData.qrCode, storageData.isBitsian, watcherData.balance, storageData.tickets, avatar, watcherData.coins)
+                when(storageData) {
+                    is Optional.Some -> {
+                        uWatcher.watchUserId(storageData.value.id, storageData.value.isBitsian)
+                        uWatcher.getUserData()
+                            .map { watcherData ->
+                                Optional.Some(combineStorageAndWatcherData(storageData.value, watcherData))
+                            }
                     }
+                    is Optional.None -> {
+                        Flowable.just(Optional.None)
+                    }
+                }
             }
     }
 
@@ -70,6 +79,7 @@ class UserRepositoryImpl(
 
     override fun chooseAvatar(avatarId: Long): Completable {
         return uStorage.getUserData()
+            .requireSome()
             .firstOrError()
             .flatMapCompletable { userData ->
                 val body = JSONObject().apply {
@@ -86,6 +96,7 @@ class UserRepositoryImpl(
 
     override fun addMoney(amount: Int): Completable {
         return uStorage.getUserData()
+            .requireSome()
             .firstOrError()
             .flatMapCompletable { userData ->
                 val body = JSONObject().apply {
@@ -97,6 +108,7 @@ class UserRepositoryImpl(
 
     override fun transferMoney(amount: Int, receivingQrCode: String): Completable {
         return uStorage.getUserData()
+            .requireSome()
             .firstOrError()
             .flatMapCompletable { userData ->
                 val body = JSONObject().apply {
@@ -113,5 +125,10 @@ class UserRepositoryImpl(
             .flatMapCompletable { user ->
                 uStorage.setUserData(UserStorageData(user.id, user.name, user.jwt, user.qrCode, isBitsian, listOf(), 0))
             }
+    }
+
+    private fun combineStorageAndWatcherData(storageData: UserStorageData, watcherData: UserWatcherData): User {
+        val avatar = avatars[storageData.avatarId.toInt()]
+        return User(storageData.id, storageData.name, storageData.jwt, storageData.qrCode, storageData.isBitsian, watcherData.balance, storageData.tickets, avatar, watcherData.coins)
     }
 }

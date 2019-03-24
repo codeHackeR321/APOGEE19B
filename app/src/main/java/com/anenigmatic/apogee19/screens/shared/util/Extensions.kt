@@ -2,6 +2,9 @@ package com.anenigmatic.apogee19.screens.shared.util
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.anenigmatic.apogee19.screens.shared.core.User
+import io.reactivex.Flowable
+import io.reactivex.FlowableTransformer
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import okhttp3.MediaType
@@ -27,4 +30,17 @@ fun CompositeDisposable.set(disposable: Disposable) {
 
 fun JSONObject.toRequestBody(): RequestBody {
     return RequestBody.create(MediaType.parse("application/json; charset=utf-8"), this.toString())
+}
+
+fun<T: Any> Flowable<Optional<T>>.requireSome(): Flowable<T> {
+    val operation = FlowableTransformer<Optional<T>, T> { source ->
+        source.switchMap { optional ->
+            when(optional) {
+                is Optional.Some -> Flowable.just(optional.value)
+                is Optional.None -> Flowable.error(Exception())
+            }
+        }
+    }
+
+    return this.compose(operation)
 }

@@ -3,6 +3,7 @@ package com.anenigmatic.apogee19.screens.shared.data.storage
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import com.anenigmatic.apogee19.screens.shared.core.Ticket
+import com.anenigmatic.apogee19.screens.shared.util.Optional
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Completable
 import io.reactivex.Flowable
@@ -24,7 +25,7 @@ class UserStorageImpl(private val prefs: SharedPreferences) : UserStorage {
     private val defaultAvatarId = 0L
 
 
-    override fun getUserData(): Flowable<UserStorageData> {
+    override fun getUserData(): Flowable<Optional<UserStorageData>> {
         return Flowable.create({ emitter ->
             try {
                 val id = prefs.getLong(Keys.id, 0)
@@ -36,11 +37,11 @@ class UserStorageImpl(private val prefs: SharedPreferences) : UserStorage {
                 val avatarId = prefs.getLong(Keys.avatarId, defaultAvatarId)
 
                 if(id == 0L || name == null || jwt == null || qrCode == null) {
-                    emitter.onError(Exception("User isn't logged-in"))
+                    emitter.onNext(Optional.None)
                     return@create
                 }
 
-                emitter.onNext(UserStorageData(id, name, jwt, qrCode, isBitsian, tickets, avatarId))
+                emitter.onNext(Optional.Some(UserStorageData(id, name, jwt, qrCode, isBitsian, tickets, avatarId)))
             } catch(e: Exception) {
                 emitter.onError(e)
             }

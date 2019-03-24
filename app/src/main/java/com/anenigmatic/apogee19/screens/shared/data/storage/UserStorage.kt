@@ -1,5 +1,6 @@
 package com.anenigmatic.apogee19.screens.shared.data.storage
 
+import com.anenigmatic.apogee19.screens.shared.util.Optional
 import io.reactivex.Completable
 import io.reactivex.Flowable
 
@@ -11,8 +12,10 @@ interface UserStorage {
 
     /**
      * Gives the user data stored in the storage.
+     * If no user is logged-in,  Optional.None is
+     * given.
      * */
-    fun getUserData(): Flowable<UserStorageData>
+    fun getUserData(): Flowable<Optional<UserStorageData>>
 
     /**
      * Updates the data in the storage to passed-

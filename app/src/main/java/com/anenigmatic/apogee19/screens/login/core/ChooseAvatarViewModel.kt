@@ -7,6 +7,7 @@ import com.anenigmatic.apogee19.screens.shared.core.Avatar
 import com.anenigmatic.apogee19.screens.shared.data.UserRepository
 import com.anenigmatic.apogee19.screens.shared.util.SingleLiveEvent
 import com.anenigmatic.apogee19.screens.shared.util.asMut
+import com.anenigmatic.apogee19.screens.shared.util.requireSome
 import io.reactivex.schedulers.Schedulers
 
 class ChooseAvatarViewModel(private val uRepo: UserRepository) : ViewModel() {
@@ -28,11 +29,12 @@ class ChooseAvatarViewModel(private val uRepo: UserRepository) : ViewModel() {
     init {
         orderData.asMut().value = UiOrder.ShowLoadingState
 
-        uRepo.getAllAvatars()
-            .flatMap { avatars ->
-                uRepo.getUser()
-                    .map { user -> user.avatar.id }
-                    .map { chosenAvatarId -> UiOrder.ShowWorkingState(avatars, chosenAvatarId) }
+        uRepo.getUser()
+            .requireSome()
+            .map { user -> user.avatar.id }
+            .switchMap { avatarId ->
+                uRepo.getAllAvatars()
+                    .map { avatars -> UiOrder.ShowWorkingState(avatars, avatarId) }
             }
             .subscribeOn(Schedulers.io())
             .subscribe(
