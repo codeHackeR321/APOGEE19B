@@ -94,7 +94,7 @@ class ProfileViewModel(private val uRepo: UserRepository) : ViewModel() {
     }
 
     @SuppressLint("CheckResult")
-    fun onTransferMoneyAction(amount: Int, receivingQrCode: String) {
+    fun onTransferMoneyAction(recipientId: Long, amount: Int) {
         if(amount <= 0) {
             toastData.asMut().postValue("You're only allowed to enter a positive amount of money")
             return
@@ -103,7 +103,7 @@ class ProfileViewModel(private val uRepo: UserRepository) : ViewModel() {
         val backupOrder = orderData.value
 
         orderData.asMut().value = UiOrder.ShowLoadingState
-        uRepo.transferMoney(amount, receivingQrCode)
+        uRepo.transferMoney(recipientId, amount)
             .subscribeOn(Schedulers.io())
             .subscribe(
                 {

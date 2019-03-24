@@ -106,14 +106,14 @@ class UserRepositoryImpl(
             }
     }
 
-    override fun transferMoney(amount: Int, receivingQrCode: String): Completable {
+    override fun transferMoney(recipientId: Long, amount: Int): Completable {
         return uStorage.getUserData()
             .requireSome()
             .firstOrError()
             .flatMapCompletable { userData ->
                 val body = JSONObject().apply {
+                    put("id", recipientId)
                     put("amount", amount)
-                    put("qr_code", receivingQrCode)
                 }.toRequestBody()
                 uApi.transferMoney(userData.jwt, body)
             }

@@ -77,10 +77,10 @@ interface UserRepository {
     fun addMoney(amount: Int): Completable
 
     /**
-     * Transfers money to user  associated with the  passed-in QR Code. The
+     * Transfers money to user  associated with the  passed-in user id. The
      * passed-in amount is in INR.
      * */
-    fun transferMoney(amount: Int, receivingQrCode: String): Completable
+    fun transferMoney(recipientId: Long, amount: Int): Completable
 
     /**
      * Refreshes the user's QR Code both in the app and in the backend. The
