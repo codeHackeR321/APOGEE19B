@@ -51,10 +51,22 @@ class ProfileViewModel(private val uRepo: UserRepository) : ViewModel() {
     }
 
 
+    @SuppressLint("CheckResult")
     fun onQrCodeRefreshAction() {
         val backupOrder = orderData.value
 
         orderData.asMut().value = UiOrder.ShowLoadingState
+        uRepo.refreshQrCode()
+            .subscribeOn(Schedulers.io())
+            .subscribe(
+                {
+                    toastData.asMut().postValue("QR Code refreshed")
+                },
+                {
+                    toastData.asMut().postValue("Something went wrong :/")
+                    orderData.asMut().postValue(backupOrder)
+                }
+            )
     }
 
     @SuppressLint("CheckResult")

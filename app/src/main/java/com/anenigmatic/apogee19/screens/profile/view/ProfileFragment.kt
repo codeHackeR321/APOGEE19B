@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -18,7 +19,7 @@ import com.anenigmatic.apogee19.screens.shared.core.Ticket
 import com.anenigmatic.apogee19.screens.shared.core.User
 import kotlinx.android.synthetic.main.fra_profile.view.*
 
-class ProfileFragment : Fragment() {
+class ProfileFragment : Fragment(), QrCodeDialog.OnTriggerQrCodeRefreshListener {
 
     private val viewModel by lazy {
         ViewModelProviders.of(this, ProfileViewModelFactory())[ProfileViewModel::class.java]
@@ -31,7 +32,10 @@ class ProfileFragment : Fragment() {
         rootPOV.ticketsRCY.adapter = TicketsAdapter()
 
         rootPOV.showQrCodeBTN.setOnClickListener {
-
+            (viewModel.orderData.value as? UiOrder.ShowWorkingState)?.user?.let { user ->
+                QrCodeDialog().apply { arguments = bundleOf("QR_CODE" to user.qrCode) }
+                    .show(childFragmentManager, "QrCodeDialog")
+            }
         }
 
         rootPOV.addMoneyBTN.setOnClickListener {
@@ -63,6 +67,10 @@ class ProfileFragment : Fragment() {
         })
 
         return rootPOV
+    }
+
+    override fun onTriggerQrCodeRefresh() {
+        viewModel.onQrCodeRefreshAction()
     }
 
 
