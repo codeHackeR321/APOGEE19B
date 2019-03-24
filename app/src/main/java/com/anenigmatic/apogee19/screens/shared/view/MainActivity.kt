@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentManager
 import com.anenigmatic.apogee19.R
 import com.anenigmatic.apogee19.screens.events.view.EventListFragment
 import com.anenigmatic.apogee19.screens.more.view.MoreFragment
+import com.anenigmatic.apogee19.screens.profile.view.ProfileFragment
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationAdapter
 import kotlinx.android.synthetic.main.act_main.*
@@ -53,7 +54,10 @@ class MainActivity : AppCompatActivity() {
             if(!wasSelected) {
                 when(position) {
                     0 -> {
-                        Toast.makeText(this, "Profile", Toast.LENGTH_SHORT).show()
+                        supportFragmentManager.beginTransaction()
+                            .replace(R.id.navHostFRM, ProfileFragment())
+                            .addToBackStack(null)
+                            .commitAllowingStateLoss()
                     }
                     1 -> {
                         Toast.makeText(this, "Menu", Toast.LENGTH_SHORT).show()
@@ -84,7 +88,8 @@ class MainActivity : AppCompatActivity() {
     private fun AHBottomNavigation.colorize(currentItem: Int) {
         when(currentItem) {
             0 -> {
-
+                bottomNavAHB.accentColor = ContextCompat.getColor(this@MainActivity, R.color.blu02)
+                bottomNavAHB.inactiveColor = ContextCompat.getColor(this@MainActivity, R.color.blu01)
             }
             1 -> {
 
