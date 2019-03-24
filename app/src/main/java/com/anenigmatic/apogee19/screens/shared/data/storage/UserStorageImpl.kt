@@ -7,6 +7,7 @@ import com.anenigmatic.apogee19.screens.shared.util.Optional
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Completable
 import io.reactivex.Flowable
+import io.reactivex.subjects.BehaviorSubject
 
 class UserStorageImpl(private val prefs: SharedPreferences) : UserStorage {
 
@@ -22,30 +23,14 @@ class UserStorageImpl(private val prefs: SharedPreferences) : UserStorage {
     }
 
 
+    private val userDataSubject = BehaviorSubject.create<Optional<UserStorageData>>()
+
     private val defaultAvatarId = 0L
 
 
     override fun getUserData(): Flowable<Optional<UserStorageData>> {
-        return Flowable.create({ emitter ->
-            try {
-                val id = prefs.getLong(Keys.id, 0)
-                val name = prefs.getString(Keys.name, null)
-                val jwt = prefs.getString(Keys.jwt, null)
-                val qrCode = prefs.getString(Keys.qrCode, null)
-                val isBitsian = prefs.getBoolean(Keys.isBitsian, false)
-                val tickets = prefs.getStringSet(Keys.tickets, mutableSetOf()).toTickets().sortedBy { ticket -> ticket.name }
-                val avatarId = prefs.getLong(Keys.avatarId, defaultAvatarId)
-
-                if(id == 0L || name == null || jwt == null || qrCode == null) {
-                    emitter.onNext(Optional.None)
-                    return@create
-                }
-
-                emitter.onNext(Optional.Some(UserStorageData(id, name, jwt, qrCode, isBitsian, tickets, avatarId)))
-            } catch(e: Exception) {
-                emitter.onError(e)
-            }
-        }, BackpressureStrategy.LATEST)
+        emitFromPreferences()
+        return userDataSubject.toFlowable(BackpressureStrategy.LATEST)
     }
 
     override fun setUserData(userData: UserStorageData?): Completable {
@@ -62,6 +47,7 @@ class UserStorageImpl(private val prefs: SharedPreferences) : UserStorage {
                     putLong(Keys.avatarId, userData?.avatarId?: defaultAvatarId)
                 }
                 emitter.onComplete()
+                emitFromPreferences()
             } catch(e: Exception) {
                 emitter.onError(e)
             }
@@ -75,9 +61,32 @@ class UserStorageImpl(private val prefs: SharedPreferences) : UserStorage {
                     putLong(Keys.avatarId, avatarId)
                 }
                 emitter.onComplete()
+                emitFromPreferences()
             } catch(e: Exception) {
                 emitter.onError(e)
             }
+        }
+    }
+
+
+    private fun emitFromPreferences() {
+        try {
+            val id = prefs.getLong(Keys.id, 0)
+            val name = prefs.getString(Keys.name, null)
+            val jwt = prefs.getString(Keys.jwt, null)
+            val qrCode = prefs.getString(Keys.qrCode, null)
+            val isBitsian = prefs.getBoolean(Keys.isBitsian, false)
+            val tickets = prefs.getStringSet(Keys.tickets, mutableSetOf()).toTickets().sortedBy { ticket -> ticket.name }
+            val avatarId = prefs.getLong(Keys.avatarId, defaultAvatarId)
+
+            if(id == 0L || name == null || jwt == null || qrCode == null) {
+                userDataSubject.onNext(Optional.None)
+                return
+            }
+
+            userDataSubject.onNext(Optional.Some(UserStorageData(id, name, jwt, qrCode, isBitsian, tickets, avatarId)))
+        } catch(e: Exception) {
+            userDataSubject.onError(e)
         }
     }
 
