@@ -19,7 +19,7 @@ import com.anenigmatic.apogee19.screens.shared.core.Ticket
 import com.anenigmatic.apogee19.screens.shared.core.User
 import kotlinx.android.synthetic.main.fra_profile.view.*
 
-class ProfileFragment : Fragment(), QrCodeDialog.OnTriggerQrCodeRefreshListener {
+class ProfileFragment : Fragment(), QrCodeDialog.OnTriggerQrCodeRefreshListener, TransferMoneyDialog.OnEnterTransferDetailsListener {
 
     private val viewModel by lazy {
         ViewModelProviders.of(this, ProfileViewModelFactory())[ProfileViewModel::class.java]
@@ -47,6 +47,10 @@ class ProfileFragment : Fragment(), QrCodeDialog.OnTriggerQrCodeRefreshListener 
             }
         }
 
+        rootPOV.transferMoneyBTN.setOnClickListener {
+            TransferMoneyDialog().show(childFragmentManager, "TransferMoneyDialog")
+        }
+
         viewModel.orderData.observe(viewLifecycleOwner, Observer { order ->
             when(order) {
                 is UiOrder.ShowLoadingState -> showLoadingState()
@@ -71,6 +75,10 @@ class ProfileFragment : Fragment(), QrCodeDialog.OnTriggerQrCodeRefreshListener 
 
     override fun onTriggerQrCodeRefresh() {
         viewModel.onQrCodeRefreshAction()
+    }
+
+    override fun onEnterTransferDetails(recipientId: Long, amount: Int) {
+        viewModel.onTransferMoneyAction(recipientId, amount)
     }
 
 
