@@ -17,7 +17,7 @@ interface UserRepository {
      * Optional.None is given.
      *
      * Note that the user details might be out of date. To get the most up-
-     * to-date details, use the [refreshDetails] method.
+     * to-date details, use the [fetchDetails] method.
      * */
     fun getUser(): Flowable<Optional<User>>
 
@@ -68,7 +68,7 @@ interface UserRepository {
     /**
      * Makes the app get the most up-to-date user details from the backend.
      * */
-    fun refreshDetails(): Completable
+    fun fetchDetails(): Completable
 
     /**
      * Adds money to the user's account from their SWD account. The passed-
@@ -81,4 +81,11 @@ interface UserRepository {
      * passed-in amount is in INR.
      * */
     fun transferMoney(amount: Int, receivingQrCode: String): Completable
+
+    /**
+     * Refreshes the user's QR Code both in the app and in the backend. The
+     * goal of this feature is to prevent misuse of user's QR Code by other
+     * people.
+     * */
+    fun refreshQrCode(): Completable
 }

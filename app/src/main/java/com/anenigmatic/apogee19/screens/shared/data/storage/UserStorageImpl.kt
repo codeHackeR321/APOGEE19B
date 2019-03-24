@@ -68,6 +68,20 @@ class UserStorageImpl(private val prefs: SharedPreferences) : UserStorage {
         }
     }
 
+    override fun setQrCode(qrCode: String): Completable {
+        return Completable.create { emitter ->
+            try {
+                prefs.edit(commit = true) {
+                    putString(Keys.qrCode, qrCode)
+                }
+                emitter.onComplete()
+                emitFromPreferences()
+            } catch(e: Exception) {
+                emitter.onError(e)
+            }
+        }
+    }
+
 
     private fun emitFromPreferences() {
         try {

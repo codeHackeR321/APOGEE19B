@@ -29,4 +29,10 @@ interface UserStorage {
      * passed-in value.
      * */
     fun setAvatarId(avatarId: Long): Completable
+
+    /**
+     * Updates the stored qr code value to passed
+     * -in value.
+     * */
+    fun setQrCode(qrCode: String): Completable
 }

@@ -20,4 +20,7 @@ interface UserApi {
 
     @POST("2019/wallet/monetary/transfer")
     fun transferMoney(@Header("Authorization") jwt: String, @Body body: RequestBody): Completable
+
+    @POST("2019/wallet/auth/qr-code/refresh")
+    fun refreshQrCode(@Header("Authorization") jwt: String, @Body body: RequestBody): Single<RefreshQrCodeResponse>
 }

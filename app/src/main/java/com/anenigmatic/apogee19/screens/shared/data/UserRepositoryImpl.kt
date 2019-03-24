@@ -90,7 +90,7 @@ class UserRepositoryImpl(
             .andThen(uStorage.setAvatarId(avatarId))
     }
 
-    override fun refreshDetails(): Completable {
+    override fun fetchDetails(): Completable {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -116,6 +116,19 @@ class UserRepositoryImpl(
                     put("qr_code", receivingQrCode)
                 }.toRequestBody()
                 uApi.transferMoney(userData.jwt, body)
+            }
+    }
+
+    override fun refreshQrCode(): Completable {
+        return uStorage.getUserData()
+            .requireSome()
+            .firstOrError()
+            .flatMap { userData ->
+                val body = JSONObject().toRequestBody()
+                uApi.refreshQrCode(userData.jwt, body)
+            }
+            .flatMapCompletable { qrResponse ->
+                uStorage.setQrCode(qrResponse.qrCode)
             }
     }
 
