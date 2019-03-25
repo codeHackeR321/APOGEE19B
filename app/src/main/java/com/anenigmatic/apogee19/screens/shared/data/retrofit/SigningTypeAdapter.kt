@@ -1,26 +1,26 @@
 package com.anenigmatic.apogee19.screens.shared.data.retrofit
 
-import com.anenigmatic.apogee19.screens.shared.core.Ticket
+import com.anenigmatic.apogee19.screens.shared.core.Signing
 import com.squareup.moshi.FromJson
 import com.squareup.moshi.JsonReader
 
-class TicketTypeAdapter {
+class SigningTypeAdapter {
 
     @FromJson
-    fun fromJsonToTicketList(reader: JsonReader): List<Ticket> {
-        val tickets = mutableListOf<Ticket>()
+    fun fromJsonToSigningList(reader: JsonReader): List<Signing> {
+        val signings = mutableListOf<Signing>()
 
         reader.beginObject()
         while(reader.hasNext()) {
-            tickets.add(readTicket(reader))
+            signings.add(readSigning(reader))
         }
         reader.endObject()
 
-        return tickets
+        return signings
     }
 
 
-    private fun readTicket(reader: JsonReader): Ticket {
+    private fun readSigning(reader: JsonReader): Signing {
         reader.nextName()
         reader.beginObject()
         var name = ""
@@ -40,6 +40,6 @@ class TicketTypeAdapter {
         }
         reader.endObject()
 
-        return Ticket(name, quantity)
+        return Signing(name, quantity)
     }
 }

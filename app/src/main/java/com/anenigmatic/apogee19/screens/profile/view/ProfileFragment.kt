@@ -15,7 +15,6 @@ import com.anenigmatic.apogee19.screens.login.view.ChooseLoginFragment
 import com.anenigmatic.apogee19.screens.profile.core.ProfileViewModel
 import com.anenigmatic.apogee19.screens.profile.core.ProfileViewModel.UiOrder
 import com.anenigmatic.apogee19.screens.profile.core.ProfileViewModelFactory
-import com.anenigmatic.apogee19.screens.shared.core.Ticket
 import com.anenigmatic.apogee19.screens.shared.core.User
 import kotlinx.android.synthetic.main.fra_profile.view.*
 
@@ -29,7 +28,7 @@ class ProfileFragment : Fragment(), QrCodeDialog.OnTriggerQrCodeRefreshListener,
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootPOV = inflater.inflate(R.layout.fra_profile, container, false)
 
-        rootPOV.ticketsRCY.adapter = TicketsAdapter()
+        rootPOV.signingsRCY.adapter = SigningsAdapter()
 
         rootPOV.showQrCodeBTN.setOnClickListener {
             (viewModel.orderData.value as? UiOrder.ShowWorkingState)?.user?.let { user ->
@@ -111,7 +110,7 @@ class ProfileFragment : Fragment(), QrCodeDialog.OnTriggerQrCodeRefreshListener,
             view.balanceLBL.text = "₹ ${user.balance}"
             view.coinsLBL.text = user.coins.toString()
 
-            (view.ticketsRCY.adapter as TicketsAdapter).tickets = user.tickets
+            (view.signingsRCY.adapter as SigningsAdapter).signings = user.signings
         }
     }
 }

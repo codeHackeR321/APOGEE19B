@@ -95,10 +95,10 @@ class UserRepositoryImpl(
             .requireSome()
             .firstOrError()
             .flatMap { userData ->
-                uApi.getTicketsForUser(userData.jwt)
+                uApi.getSigningsForUser(userData.jwt)
             }
             .flatMapCompletable { tickets ->
-                uStorage.setTickets(tickets)
+                uStorage.setSignings(tickets)
             }
     }
 
@@ -151,6 +151,6 @@ class UserRepositoryImpl(
 
     private fun combineStorageAndWatcherData(storageData: UserStorageData, watcherData: UserWatcherData): User {
         val avatar = avatars[storageData.avatarId.toInt()]
-        return User(storageData.id, storageData.name, storageData.jwt, storageData.qrCode, storageData.isBitsian, watcherData.balance, storageData.tickets, avatar, watcherData.coins)
+        return User(storageData.id, storageData.name, storageData.jwt, storageData.qrCode, storageData.isBitsian, watcherData.balance, storageData.signings, avatar, watcherData.coins)
     }
 }

@@ -212,7 +212,7 @@
         app:layout_constraintTop_toBottomOf="@+id/addMoneyBTN" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/ticketsRCY"
+        android:id="@+id/signingsRCY"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="12dp"
@@ -222,7 +222,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/cardBackgroundPOV"
         app:layout_constraintTop_toBottomOf="@+id/textView9"
-        tools:listitem="@layout/row_ticket" />
+        tools:listitem="@layout/row_signing" />
 
     <ProgressBar
         android:id="@+id/loaderPBR"
@@ -244,7 +244,7 @@
         android:id="@+id/contentGRP"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="avatarIMG,nameLBL,userIdLBL,refreshDetailsBTN,textView2,balanceLBL,coinIMG,coinsLBL,showQrCodeBTN,addMoneyBTN,transferMoneyBTN,textView9,ticketsRCY" />
+        app:constraint_referenced_ids="avatarIMG,nameLBL,userIdLBL,refreshDetailsBTN,textView2,balanceLBL,coinIMG,coinsLBL,showQrCodeBTN,addMoneyBTN,transferMoneyBTN,textView9,signingsRCY" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"

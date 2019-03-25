@@ -15,7 +15,7 @@ data class User(
     val qrCode: String,
     val isBitsian: Boolean,
     val balance: Int,
-    val tickets: List<Ticket>,
+    val signings: List<Signing>,
     val avatar: Avatar,
     val coins: Int
 )

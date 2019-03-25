@@ -1,6 +1,6 @@
 package com.anenigmatic.apogee19.screens.shared.data.storage
 
-import com.anenigmatic.apogee19.screens.shared.core.Ticket
+import com.anenigmatic.apogee19.screens.shared.core.Signing
 
 data class UserStorageData(
     val id: Long,
@@ -8,6 +8,6 @@ data class UserStorageData(
     val jwt: String,
     val qrCode: String,
     val isBitsian: Boolean,
-    val tickets: List<Ticket>,
+    val signings: List<Signing>,
     val avatarId: Long
 )

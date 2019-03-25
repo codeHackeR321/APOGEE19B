@@ -15,7 +15,7 @@ import com.anenigmatic.apogee19.screens.shared.data.UserRepositoryImpl
 import com.anenigmatic.apogee19.screens.shared.data.firebase.UserWatcher
 import com.anenigmatic.apogee19.screens.shared.data.firebase.UserWatcherImpl
 import com.anenigmatic.apogee19.screens.shared.data.retrofit.BaseInterceptor
-import com.anenigmatic.apogee19.screens.shared.data.retrofit.TicketTypeAdapter
+import com.anenigmatic.apogee19.screens.shared.data.retrofit.SigningTypeAdapter
 import com.anenigmatic.apogee19.screens.shared.data.retrofit.UserApi
 import com.anenigmatic.apogee19.screens.shared.data.room.AppDatabase
 import com.anenigmatic.apogee19.screens.shared.data.storage.UserStorage
@@ -107,7 +107,7 @@ class AppModule(private val application: Application) {
     @Singleton
     @Provides
     fun providesMoshi(): Moshi {
-        return Moshi.Builder().add(TicketTypeAdapter()).build()
+        return Moshi.Builder().add(SigningTypeAdapter()).build()
     }
 
     @Singleton

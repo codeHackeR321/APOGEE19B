@@ -1,6 +1,6 @@
 package com.anenigmatic.apogee19.screens.shared.data.retrofit
 
-import com.anenigmatic.apogee19.screens.shared.core.Ticket
+import com.anenigmatic.apogee19.screens.shared.core.Signing
 import io.reactivex.Completable
 import io.reactivex.Single
 import okhttp3.RequestBody
@@ -27,5 +27,5 @@ interface UserApi {
     fun refreshQrCode(@Header("Authorization") jwt: String, @Body body: RequestBody): Single<RefreshQrCodeResponse>
 
     @GET("2019/tickets-manager/tickets")
-    fun getTicketsForUser(@Header("Authorization") jwt: String): Single<List<Ticket>>
+    fun getSigningsForUser(@Header("Authorization") jwt: String): Single<List<Signing>>
 }

@@ -2,7 +2,7 @@ package com.anenigmatic.apogee19.screens.shared.data.storage
 
 import android.content.SharedPreferences
 import androidx.core.content.edit
-import com.anenigmatic.apogee19.screens.shared.core.Ticket
+import com.anenigmatic.apogee19.screens.shared.core.Signing
 import com.anenigmatic.apogee19.screens.shared.util.Optional
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Completable
@@ -18,7 +18,7 @@ class UserStorageImpl(private val prefs: SharedPreferences) : UserStorage {
         const val jwt = "JWT"
         const val qrCode = "QR_CODE"
         const val isBitsian = "IS_BITSIAN"
-        const val tickets = "TICKETS"
+        const val signings = "SIGNINGS"
         const val avatarId = "AVATAR_ID"
     }
 
@@ -47,7 +47,7 @@ class UserStorageImpl(private val prefs: SharedPreferences) : UserStorage {
                     putString(Keys.jwt, jwt)
                     putString(Keys.qrCode, userData?.qrCode)
                     putBoolean(Keys.isBitsian, userData?.isBitsian?: false)
-                    putStringSet(Keys.tickets, mutableSetOf())
+                    putStringSet(Keys.signings, mutableSetOf())
                     putLong(Keys.avatarId, userData?.avatarId?: defaultAvatarId)
                 }
                 emitFromPreferences()
@@ -72,12 +72,12 @@ class UserStorageImpl(private val prefs: SharedPreferences) : UserStorage {
         }
     }
 
-    override fun setTickets(tickets: List<Ticket>): Completable {
+    override fun setSignings(signings: List<Signing>): Completable {
         return Completable.create { emitter ->
             try {
-                val stringSet = tickets.map { ticket -> "${ticket.name}<|>${ticket.quantity}" }.toMutableSet()
+                val stringSet = signings.map { ticket -> "${ticket.name}<|>${ticket.quantity}" }.toMutableSet()
                 prefs.edit(commit = true) {
-                    putStringSet(Keys.tickets, stringSet)
+                    putStringSet(Keys.signings, stringSet)
                 }
                 emitFromPreferences()
                 emitter.onComplete()
@@ -109,7 +109,7 @@ class UserStorageImpl(private val prefs: SharedPreferences) : UserStorage {
             val jwt = prefs.getString(Keys.jwt, null)
             val qrCode = prefs.getString(Keys.qrCode, null)
             val isBitsian = prefs.getBoolean(Keys.isBitsian, false)
-            val tickets = prefs.getStringSet(Keys.tickets, mutableSetOf()).toTickets().sortedBy { ticket -> ticket.name }
+            val tickets = prefs.getStringSet(Keys.signings, mutableSetOf()).toTickets().sortedBy { ticket -> ticket.name }
             val avatarId = prefs.getLong(Keys.avatarId, defaultAvatarId)
 
             if(id == 0L || name == null || jwt == null || qrCode == null) {
@@ -124,9 +124,9 @@ class UserStorageImpl(private val prefs: SharedPreferences) : UserStorage {
     }
 
 
-    private fun MutableSet<String>.toTickets(): List<Ticket> {
+    private fun MutableSet<String>.toTickets(): List<Signing> {
         return this.map { str ->
-            Ticket(str.substringBefore("<|>"), str.substringAfter("<|>").toInt())
+            Signing(str.substringBefore("<|>"), str.substringAfter("<|>").toInt())
         }
     }
 }

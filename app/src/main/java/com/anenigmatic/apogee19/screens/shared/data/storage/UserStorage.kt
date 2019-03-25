@@ -1,6 +1,6 @@
 package com.anenigmatic.apogee19.screens.shared.data.storage
 
-import com.anenigmatic.apogee19.screens.shared.core.Ticket
+import com.anenigmatic.apogee19.screens.shared.core.Signing
 import com.anenigmatic.apogee19.screens.shared.util.Optional
 import io.reactivex.Completable
 import io.reactivex.Flowable
@@ -32,10 +32,10 @@ interface UserStorage {
     fun setAvatarId(avatarId: Long): Completable
 
     /**
-     * Updates the stored  tickets to the passed-
+     * Updates the stored signings to the passed-
      * in value.
      * */
-    fun setTickets(tickets: List<Ticket>): Completable
+    fun setSignings(signings: List<Signing>): Completable
 
     /**
      * Updates the stored qr code value to passed
