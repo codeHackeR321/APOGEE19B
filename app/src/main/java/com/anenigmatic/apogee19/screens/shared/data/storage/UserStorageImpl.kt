@@ -28,8 +28,12 @@ class UserStorageImpl(private val prefs: SharedPreferences) : UserStorage {
     private val defaultAvatarId = 0L
 
 
-    override fun getUserData(): Flowable<Optional<UserStorageData>> {
+    init {
         emitFromPreferences()
+    }
+
+
+    override fun getUserData(): Flowable<Optional<UserStorageData>> {
         return userDataSubject.toFlowable(BackpressureStrategy.LATEST)
     }
 
