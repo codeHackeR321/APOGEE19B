@@ -91,7 +91,15 @@ class UserRepositoryImpl(
     }
 
     override fun fetchDetails(): Completable {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return uStorage.getUserData()
+            .requireSome()
+            .firstOrError()
+            .flatMap { userData ->
+                uApi.getTicketsForUser(userData.jwt)
+            }
+            .flatMapCompletable { tickets ->
+                uStorage.setTickets(tickets)
+            }
     }
 
     override fun addMoney(amount: Int): Completable {
@@ -138,6 +146,7 @@ class UserRepositoryImpl(
             .flatMapCompletable { user ->
                 uStorage.setUserData(UserStorageData(user.id, user.name, user.jwt, user.qrCode, isBitsian, listOf(), 0))
             }
+            .andThen(fetchDetails())
     }
 
     private fun combineStorageAndWatcherData(storageData: UserStorageData, watcherData: UserWatcherData): User {
