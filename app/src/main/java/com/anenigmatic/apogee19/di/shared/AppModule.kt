@@ -15,11 +15,13 @@ import com.anenigmatic.apogee19.screens.shared.data.UserRepositoryImpl
 import com.anenigmatic.apogee19.screens.shared.data.firebase.UserWatcher
 import com.anenigmatic.apogee19.screens.shared.data.firebase.UserWatcherImpl
 import com.anenigmatic.apogee19.screens.shared.data.retrofit.BaseInterceptor
+import com.anenigmatic.apogee19.screens.shared.data.retrofit.TicketTypeAdapter
 import com.anenigmatic.apogee19.screens.shared.data.retrofit.UserApi
 import com.anenigmatic.apogee19.screens.shared.data.room.AppDatabase
 import com.anenigmatic.apogee19.screens.shared.data.storage.UserStorage
 import com.anenigmatic.apogee19.screens.shared.data.storage.UserStorageImpl
 import com.anenigmatic.apogee19.screens.shared.util.NetworkDetails
+import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -93,13 +95,19 @@ class AppModule(private val application: Application) {
 
     @Singleton
     @Provides
-    fun providesRetrofit(): Retrofit {
+    fun providesRetrofit(moshi: Moshi): Retrofit {
         return Retrofit.Builder()
             .baseUrl("http://test.bits-apogee.org/")
             .client(OkHttpClient().newBuilder().addInterceptor(BaseInterceptor()).build())
-            .addConverterFactory(MoshiConverterFactory.create())
+            .addConverterFactory(MoshiConverterFactory.create(moshi))
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build()
+    }
+
+    @Singleton
+    @Provides
+    fun providesMoshi(): Moshi {
+        return Moshi.Builder().add(TicketTypeAdapter()).build()
     }
 
     @Singleton
