@@ -38,6 +38,10 @@ class ProfileFragment : Fragment(), QrCodeDialog.OnTriggerQrCodeRefreshListener,
             }
         }
 
+        rootPOV.refreshDetailsBTN.setOnClickListener {
+            viewModel.onFetchDetailsAction()
+        }
+
         rootPOV.addMoneyBTN.setOnClickListener {
             (viewModel.orderData.value as? UiOrder.ShowWorkingState)?.user?.let { user ->
                 if(!user.isBitsian) {
@@ -107,11 +111,7 @@ class ProfileFragment : Fragment(), QrCodeDialog.OnTriggerQrCodeRefreshListener,
             view.balanceLBL.text = "₹ ${user.balance}"
             view.coinsLBL.text = user.coins.toString()
 
-            (view.ticketsRCY.adapter as TicketsAdapter).tickets = listOf(
-                Ticket("The Starry Night Prof Show", 2),
-                Ticket("Roomba Cleaning Demo", 1),
-                Ticket("Connecting the Dots", 4)
-            )
+            (view.ticketsRCY.adapter as TicketsAdapter).tickets = user.tickets
         }
     }
 }

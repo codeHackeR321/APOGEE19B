@@ -70,6 +70,24 @@ class ProfileViewModel(private val uRepo: UserRepository) : ViewModel() {
     }
 
     @SuppressLint("CheckResult")
+    fun onFetchDetailsAction() {
+        val backupOrder = orderData.value
+
+        orderData.asMut().value = UiOrder.ShowLoadingState
+        uRepo.fetchDetails()
+            .subscribeOn(Schedulers.io())
+            .subscribe(
+                {
+                    toastData.asMut().postValue("Fetched latest details")
+                },
+                {
+                    toastData.asMut().postValue("Something went wrong :/")
+                    orderData.asMut().postValue(backupOrder)
+                }
+            )
+    }
+
+    @SuppressLint("CheckResult")
     fun onAddMoneyAction(amount: Int) {
         if(amount <= 0) {
             toastData.asMut().postValue("You're only allowed to enter a positive amount of money")
