@@ -46,8 +46,8 @@ class UserStorageImpl(private val prefs: SharedPreferences) : UserStorage {
                     putStringSet(Keys.tickets, mutableSetOf())
                     putLong(Keys.avatarId, userData?.avatarId?: defaultAvatarId)
                 }
-                emitter.onComplete()
                 emitFromPreferences()
+                emitter.onComplete()
             } catch(e: Exception) {
                 emitter.onError(e)
             }
@@ -60,8 +60,23 @@ class UserStorageImpl(private val prefs: SharedPreferences) : UserStorage {
                 prefs.edit(commit = true) {
                     putLong(Keys.avatarId, avatarId)
                 }
-                emitter.onComplete()
                 emitFromPreferences()
+                emitter.onComplete()
+            } catch(e: Exception) {
+                emitter.onError(e)
+            }
+        }
+    }
+
+    override fun setTickets(tickets: List<Ticket>): Completable {
+        return Completable.create { emitter ->
+            try {
+                val stringSet = tickets.map { ticket -> "${ticket.name}<|>${ticket.quantity}" }.toMutableSet()
+                prefs.edit(commit = true) {
+                    putStringSet(Keys.tickets, stringSet)
+                }
+                emitFromPreferences()
+                emitter.onComplete()
             } catch(e: Exception) {
                 emitter.onError(e)
             }
@@ -74,8 +89,8 @@ class UserStorageImpl(private val prefs: SharedPreferences) : UserStorage {
                 prefs.edit(commit = true) {
                     putString(Keys.qrCode, qrCode)
                 }
-                emitter.onComplete()
                 emitFromPreferences()
+                emitter.onComplete()
             } catch(e: Exception) {
                 emitter.onError(e)
             }
