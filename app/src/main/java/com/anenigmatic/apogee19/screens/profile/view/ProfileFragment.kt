@@ -16,6 +16,7 @@ import com.anenigmatic.apogee19.screens.profile.core.ProfileViewModel
 import com.anenigmatic.apogee19.screens.profile.core.ProfileViewModel.UiOrder
 import com.anenigmatic.apogee19.screens.profile.core.ProfileViewModelFactory
 import com.anenigmatic.apogee19.screens.shared.core.User
+import com.anenigmatic.apogee19.screens.tickets.view.TicketsFragment
 import kotlinx.android.synthetic.main.fra_profile.view.*
 
 class ProfileFragment : Fragment(), QrCodeDialog.OnTriggerQrCodeRefreshListener, TransferMoneyDialog.OnEnterTransferDetailsListener, AddMoneyDialog.OnEnterAmountListener {
@@ -54,6 +55,13 @@ class ProfileFragment : Fragment(), QrCodeDialog.OnTriggerQrCodeRefreshListener,
 
         rootPOV.transferMoneyBTN.setOnClickListener {
             TransferMoneyDialog().show(childFragmentManager, "TransferMoneyDialog")
+        }
+
+        rootPOV.purchaseTicketsBTN.setOnClickListener {
+            activity!!.supportFragmentManager.beginTransaction()
+                .replace(R.id.navHostFRM, TicketsFragment())
+                .addToBackStack(null)
+                .commitAllowingStateLoss()
         }
 
         viewModel.orderData.observe(viewLifecycleOwner, Observer { order ->
