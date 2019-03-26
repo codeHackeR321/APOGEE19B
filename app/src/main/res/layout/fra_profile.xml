@@ -224,6 +224,27 @@
         app:layout_constraintTop_toBottomOf="@+id/textView9"
         tools:listitem="@layout/row_signing" />
 
+    <TextView
+        android:id="@+id/purchaseTicketsBTN"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/sh_rounded_rectangle_08dp"
+        android:backgroundTint="@color/blu05"
+        android:fontFamily="@font/google_sans_medium"
+        android:paddingStart="24dp"
+        android:paddingTop="14dp"
+        android:paddingEnd="24dp"
+        android:paddingBottom="14dp"
+        android:text="Buy Tickets"
+        android:textAlignment="center"
+        android:textColor="@color/wht01"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <ProgressBar
         android:id="@+id/loaderPBR"
         style="?android:attr/progressBarStyle"
@@ -244,7 +265,7 @@
         android:id="@+id/contentGRP"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="avatarIMG,nameLBL,userIdLBL,refreshDetailsBTN,textView2,balanceLBL,coinIMG,coinsLBL,showQrCodeBTN,addMoneyBTN,transferMoneyBTN,textView9,signingsRCY" />
+        app:constraint_referenced_ids="avatarIMG,nameLBL,userIdLBL,refreshDetailsBTN,textView2,balanceLBL,coinIMG,coinsLBL,showQrCodeBTN,addMoneyBTN,transferMoneyBTN,textView9,signingsRCY,purchaseTicketsBTN" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"

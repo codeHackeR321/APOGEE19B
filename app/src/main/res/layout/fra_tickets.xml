@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootPOV"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gd_blu01_blu02">
+
+    <ImageView
+        android:id="@+id/backgroundPatternIMG"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ll_background_pattern" />
+
+    <ImageView
+        android:id="@+id/backBTN"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/sh_rounded_rectangle_08dp"
+        android:backgroundTint="@color/blk02"
+        android:padding="8dp"
+        android:tint="@color/wht01"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_back" />
+
+    <TextView
+        android:id="@+id/screenTitleLBL"
+        style="@style/ScreenTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Buy Tickets"
+        app:layout_constraintStart_toStartOf="@+id/backBTN"
+        app:layout_constraintTop_toBottomOf="@+id/backBTN" />
+
+    <ImageView
+        android:id="@+id/squigglyLineIMG"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="16dp"
+        android:tint="@color/wht01"
+        app:layout_constraintStart_toStartOf="@+id/screenTitleLBL"
+        app:layout_constraintTop_toBottomOf="@+id/screenTitleLBL"
+        app:srcCompat="@drawable/ic_wiggly_line" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/ticketsRCY"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/sh_top_half_rounded_rectangle_16dp"
+        android:backgroundTint="@color/wht01"
+        android:paddingTop="12dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/squigglyLineIMG"
+        tools:listitem="@layout/row_ticket" />
+
+    <ProgressBar
+        android:id="@+id/loaderPBR"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/blu06"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/ticketsRCY"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/ticketsRCY" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
