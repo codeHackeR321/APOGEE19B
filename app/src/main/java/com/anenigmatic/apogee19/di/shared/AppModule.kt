@@ -21,6 +21,10 @@ import com.anenigmatic.apogee19.screens.shared.data.room.AppDatabase
 import com.anenigmatic.apogee19.screens.shared.data.storage.UserStorage
 import com.anenigmatic.apogee19.screens.shared.data.storage.UserStorageImpl
 import com.anenigmatic.apogee19.screens.shared.util.NetworkDetails
+import com.anenigmatic.apogee19.screens.tickets.data.TicketRepository
+import com.anenigmatic.apogee19.screens.tickets.data.TicketRepositoryImpl
+import com.anenigmatic.apogee19.screens.tickets.data.retrofit.ComboTicketTypeAdapter
+import com.anenigmatic.apogee19.screens.tickets.data.retrofit.TicketsApi
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
@@ -41,6 +45,12 @@ class AppModule(private val application: Application) {
 
     @Singleton
     @Provides
+    fun providesTicketRepository(ticketsApi: TicketsApi, userRepository: UserRepository): TicketRepository {
+        return TicketRepositoryImpl(ticketsApi, userRepository)
+    }
+
+    @Singleton
+    @Provides
     fun providesUserRepository(userStorage: UserStorage, userApi: UserApi, userWatcher: UserWatcher): UserRepository {
         return UserRepositoryImpl(userStorage, userApi, userWatcher)
     }
@@ -55,6 +65,12 @@ class AppModule(private val application: Application) {
     @Provides
     fun providesEventsApi(retrofit: Retrofit): EventsApi {
         return retrofit.create(EventsApi::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun providesTicketsApi(retrofit: Retrofit): TicketsApi {
+        return retrofit.create(TicketsApi::class.java)
     }
 
     @Singleton
@@ -107,7 +123,10 @@ class AppModule(private val application: Application) {
     @Singleton
     @Provides
     fun providesMoshi(): Moshi {
-        return Moshi.Builder().add(SigningTypeAdapter()).build()
+        return Moshi.Builder()
+            .add(SigningTypeAdapter())
+            .add(ComboTicketTypeAdapter())
+            .build()
     }
 
     @Singleton
