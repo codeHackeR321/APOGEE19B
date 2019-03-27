@@ -30,6 +30,7 @@ class StallsViewModel(private val repository: MenuRepository) : ViewModel()
             repository = MenuRepositoryImpl(instance.currentContext!!).getInstance()
         }*/
         Log.e("Test" , "Repository Created")
+        repository.listenStatus()
         //repository = MenuRepositoryImpl(instance.currentContext!!)
     }
 

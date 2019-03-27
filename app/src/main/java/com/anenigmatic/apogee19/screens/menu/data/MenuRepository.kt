@@ -41,4 +41,6 @@ interface MenuRepository {
 
     fun refreshPastOrders()
 
+    fun listenStatus()
+
 }

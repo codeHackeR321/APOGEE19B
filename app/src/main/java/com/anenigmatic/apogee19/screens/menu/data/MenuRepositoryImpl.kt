@@ -1,6 +1,7 @@
 package com.anenigmatic.apogee19.screens.menu.data
 
 import android.content.SharedPreferences
+import android.preference.PreferenceManager
 import android.util.Log
 import androidx.lifecycle.LiveData
 import com.anenigmatic.apogee19.screens.menu.data.retrofit.*
@@ -8,6 +9,10 @@ import com.anenigmatic.apogee19.screens.menu.data.room.*
 import com.anenigmatic.apogee19.screens.shared.data.room.AppDatabase
 import com.anenigmatic.apogee19.screens.menu.data.retrofit.StallAndMenu
 import com.example.manish.apogeewallet.screens.menu.data.room.PastOrder
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import okhttp3.MediaType
 import okhttp3.RequestBody
 import org.json.JSONObject
@@ -202,6 +207,7 @@ class MenuRepositoryImpl(private val prefs: SharedPreferences, database: AppData
                     override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
 
                         if(response.code() == 200) {
+                            Log.d("Test" , "Called change otp status")
                             pastOrderDao.changeOtpSeenStatus(orderId, true)
                         }
                     }
@@ -280,5 +286,38 @@ class MenuRepositoryImpl(private val prefs: SharedPreferences, database: AppData
 
     fun JSONObject.toRequestBody(): RequestBody {
         return RequestBody.create(MediaType.parse("application/json; charset=utf-8"), this.toString())
+    }
+
+    override fun listenStatus() {
+
+        var userId= prefs.getLong("USER_ID",-1L)
+        var isBITSian =prefs.getBoolean("IS_BITSIAN",false)
+        var key = ""
+
+        if (userId != -1L) {
+            if(isBITSian)
+                key = "bitsian- "+userId
+            else
+                key = "participant- "+userId
+
+            Log.d("Test Key" , "Key = $key")
+
+            FirebaseDatabase.getInstance().getReference().child(key).addValueEventListener(object: ValueEventListener{
+
+                override fun onDataChange(p0: DataSnapshot) {
+                    if(p0.hasChild("orders"))
+                    {
+                        p0.child("orders").children.forEach{
+                            Log.d("Firebase" , "order $it")
+                            pastOrderDao.changeStatus(Integer.parseInt(it.key),it.value.toString())
+                        }
+                    }
+                }
+
+                override fun onCancelled(p0: DatabaseError) {
+
+                }
+            })
+        }
     }
 }

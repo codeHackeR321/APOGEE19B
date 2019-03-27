@@ -40,6 +40,8 @@ class OrderHistoryAdapter(private var dataset : List<PastOrder>, private val fra
 
     override fun onBindViewHolder(holder: OrderHistoryAdapter.MyViewHolder, position: Int) {
 
+        holder.textViewStatus.setTextColor(fragment.resources.getColor(R.color.grn01))
+
         holder.textViewOTP.setOnClickListener {
             Log.d("Test" , "OTP button clicked")
             fragment.model.onOTPClicked(dataset[position].orderId)
@@ -62,10 +64,16 @@ class OrderHistoryAdapter(private var dataset : List<PastOrder>, private val fra
             else -> "????"
         }
 
+        when(holder.textViewStatus.text)
+        {
+            "Declined" -> holder.textViewStatus.setTextColor(fragment.resources.getColor(R.color.pink03))
+        }
+
         holder.textViewTotal.text = "\u20B9 "+dataset[position].price.toString()
 
         if (dataset[position].showOtp){
 
+            Log.d("Test" , "Entered if condition in adapter")
             holder.textViewOTP.text = dataset[position].otp.toString()
 
         }
