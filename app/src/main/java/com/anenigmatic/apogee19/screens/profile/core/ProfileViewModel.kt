@@ -45,7 +45,7 @@ class ProfileViewModel(private val uRepo: UserRepository) : ViewModel() {
                     orderData.asMut().postValue(order)
                 },
                 {
-                    toastData.asMut().postValue("Something went wrong :/")
+                    toastData.asMut().postValue(it.extractMessage())
                 }
             ))
     }
@@ -63,7 +63,7 @@ class ProfileViewModel(private val uRepo: UserRepository) : ViewModel() {
                     toastData.asMut().postValue("QR Code refreshed")
                 },
                 {
-                    toastData.asMut().postValue("Something went wrong :/")
+                    toastData.asMut().postValue(it.extractMessage())
                     orderData.asMut().postValue(backupOrder)
                 }
             )
@@ -81,7 +81,7 @@ class ProfileViewModel(private val uRepo: UserRepository) : ViewModel() {
                     toastData.asMut().postValue("Fetched latest details")
                 },
                 {
-                    toastData.asMut().postValue("Something went wrong :/")
+                    toastData.asMut().postValue(it.extractMessage())
                     orderData.asMut().postValue(backupOrder)
                 }
             )
@@ -106,7 +106,7 @@ class ProfileViewModel(private val uRepo: UserRepository) : ViewModel() {
                 },
                 {
                     orderData.asMut().postValue(backupOrder)
-                    toastData.asMut().postValue("Something went wrong :/")
+                    toastData.asMut().postValue(it.extractMessage())
                 }
             )
     }
@@ -130,7 +130,7 @@ class ProfileViewModel(private val uRepo: UserRepository) : ViewModel() {
                 },
                 {
                     orderData.asMut().postValue(backupOrder)
-                    toastData.asMut().postValue("Something went wrong :/")
+                    toastData.asMut().postValue(it.extractMessage())
                 }
             )
     }
@@ -148,7 +148,7 @@ class ProfileViewModel(private val uRepo: UserRepository) : ViewModel() {
                 },
                 {
                     orderData.asMut().postValue(backupOrder)
-                    toastData.asMut().postValue("Something went wrong :/")
+                    toastData.asMut().postValue(it.extractMessage())
                 }
             )
     }

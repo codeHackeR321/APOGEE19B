@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.anenigmatic.apogee19.screens.shared.data.UserRepository
 import com.anenigmatic.apogee19.screens.shared.util.SingleLiveEvent
 import com.anenigmatic.apogee19.screens.shared.util.asMut
+import com.anenigmatic.apogee19.screens.shared.util.extractMessage
 import io.reactivex.schedulers.Schedulers
 
 class ChooseLoginViewModel(private val uRepo: UserRepository) : ViewModel() {
@@ -42,7 +43,7 @@ class ChooseLoginViewModel(private val uRepo: UserRepository) : ViewModel() {
                 },
                 {
                     orderData.asMut().postValue(UiOrder.ShowWorkingState)
-                    toastData.asMut().postValue("Something went wrong :/")
+                    toastData.asMut().postValue(it.extractMessage())
                 }
             )
     }

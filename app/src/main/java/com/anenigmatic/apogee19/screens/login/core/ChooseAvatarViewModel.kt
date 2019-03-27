@@ -7,6 +7,7 @@ import com.anenigmatic.apogee19.screens.shared.core.Avatar
 import com.anenigmatic.apogee19.screens.shared.data.UserRepository
 import com.anenigmatic.apogee19.screens.shared.util.SingleLiveEvent
 import com.anenigmatic.apogee19.screens.shared.util.asMut
+import com.anenigmatic.apogee19.screens.shared.util.extractMessage
 import com.anenigmatic.apogee19.screens.shared.util.requireSome
 import io.reactivex.schedulers.Schedulers
 
@@ -42,7 +43,7 @@ class ChooseAvatarViewModel(private val uRepo: UserRepository) : ViewModel() {
                     orderData.asMut().postValue(order)
                 },
                 {
-                    toastData.asMut().postValue("Something went wrong. Please restart the app")
+                    toastData.asMut().postValue(it.extractMessage("Something went wrong. Please restart the app"))
                 }
             )
     }
@@ -68,7 +69,7 @@ class ChooseAvatarViewModel(private val uRepo: UserRepository) : ViewModel() {
                     },
                     {
                         orderData.asMut().postValue(backupOrder)
-                        toastData.asMut().postValue("Something went wrong :/")
+                        toastData.asMut().postValue(it.extractMessage())
                     }
                 )
         }

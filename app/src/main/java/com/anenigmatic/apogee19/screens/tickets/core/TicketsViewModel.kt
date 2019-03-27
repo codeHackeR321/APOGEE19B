@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.anenigmatic.apogee19.screens.shared.util.asMut
+import com.anenigmatic.apogee19.screens.shared.util.extractMessage
 import com.anenigmatic.apogee19.screens.tickets.data.TicketRepository
 import io.reactivex.schedulers.Schedulers
 
@@ -34,7 +35,7 @@ class TicketsViewModel(private val tRepo: TicketRepository) : ViewModel() {
                 },
                 {
                     orderData.asMut().postValue(UiOrder.ShowWorkingState(listOf()))
-                    toastData.asMut().postValue("Something went wrong :/")
+                    toastData.asMut().postValue(it.extractMessage())
                 }
             )
     }
@@ -59,7 +60,7 @@ class TicketsViewModel(private val tRepo: TicketRepository) : ViewModel() {
                 },
                 {
                     orderData.asMut().postValue(backupOrder)
-                    toastData.asMut().postValue("Purchase Failed  :/")
+                    toastData.asMut().postValue(it.extractMessage("Purchase Failed  :/"))
                 }
             )
     }

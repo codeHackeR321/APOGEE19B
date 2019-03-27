@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.anenigmatic.apogee19.screens.events.data.EventRepository
 import com.anenigmatic.apogee19.screens.shared.util.SingleLiveEvent
 import com.anenigmatic.apogee19.screens.shared.util.asMut
+import com.anenigmatic.apogee19.screens.shared.util.extractMessage
 import com.anenigmatic.apogee19.screens.shared.util.set
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -51,7 +52,7 @@ class EventListViewModel(private val eRepo: EventRepository) : ViewModel() {
 
                 },
                 {
-                    toastData.asMut().postValue("An error occurred")
+                    toastData.asMut().postValue(it.extractMessage())
                 }
             )
     }
@@ -80,7 +81,7 @@ class EventListViewModel(private val eRepo: EventRepository) : ViewModel() {
                     orderData.asMut().postValue(order)
                 },
                 { error ->
-                    orderData.asMut().postValue(UiOrder.ShowFailureState("Something went wrong :/"))
+                    orderData.asMut().postValue(UiOrder.ShowFailureState(error.extractMessage()))
                 }
             ))
     }
