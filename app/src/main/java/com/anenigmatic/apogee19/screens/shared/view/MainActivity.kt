@@ -6,8 +6,11 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentManager
 import com.anenigmatic.apogee19.R
+import com.anenigmatic.apogee19.StateClass
 import com.anenigmatic.apogee19.screens.events.view.EventListFragment
+import com.anenigmatic.apogee19.screens.menu.view.StallListFragment
 import com.anenigmatic.apogee19.screens.more.view.MoreFragment
+import com.anenigmatic.apogee19.screens.orderHistory.view.OrderHistory
 import com.anenigmatic.apogee19.screens.profile.view.ProfileFragment
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationAdapter
@@ -38,12 +41,26 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if(supportFragmentManager.backStackEntryCount == 1) {
-            bottomNavAHB?.colorize(3)
-            bottomNavAHB?.setCurrentItem(3, false)
-        }
+        if (bottomNavAHB.currentItem == 1) {
+            if (StateClass.state == 0) {
+                if(supportFragmentManager.backStackEntryCount == 1) {
+                    bottomNavAHB?.colorize(3)
+                    bottomNavAHB?.setCurrentItem(3, false)
+                }
 
-        super.onBackPressed()
+                super.onBackPressed()
+            }
+            else {
+                supportFragmentManager.fragments.first().onDestroyOptionsMenu()
+            }
+        } else {
+            if(supportFragmentManager.backStackEntryCount == 1) {
+                bottomNavAHB?.colorize(3)
+                bottomNavAHB?.setCurrentItem(3, false)
+            }
+
+            super.onBackPressed()
+        }
     }
 
     private fun setupBottomNavigation(currentItem: Int, useCallback: Boolean) {
@@ -56,10 +73,10 @@ class MainActivity : AppCompatActivity() {
 
         bottomNavAHB.setOnTabSelectedListener { position, wasSelected ->
 
-            // This removes all the Fragments except the EventListFragment(which is the root)
-            supportFragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-
             if(!wasSelected) {
+                // This removes all the Fragments except the EventListFragment(which is the root)
+                supportFragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+
                 when(position) {
                     0 -> {
                         supportFragmentManager.beginTransaction()
@@ -68,10 +85,16 @@ class MainActivity : AppCompatActivity() {
                             .commitAllowingStateLoss()
                     }
                     1 -> {
-                        Toast.makeText(this, "Menu", Toast.LENGTH_SHORT).show()
+                        supportFragmentManager.beginTransaction()
+                            .replace(R.id.navHostFRM, StallListFragment())
+                            .addToBackStack(null)
+                            .commitAllowingStateLoss()
                     }
                     2 -> {
-                        Toast.makeText(this, "Orders", Toast.LENGTH_SHORT).show()
+                        supportFragmentManager.beginTransaction()
+                            .replace(R.id.navHostFRM, OrderHistory())
+                            .addToBackStack(null)
+                            .commitAllowingStateLoss()
                     }
                     3 -> {
 
@@ -100,10 +123,12 @@ class MainActivity : AppCompatActivity() {
                 bottomNavAHB.inactiveColor = ContextCompat.getColor(this@MainActivity, R.color.blu01)
             }
             1 -> {
-
+                bottomNavAHB.accentColor = ContextCompat.getColor(this@MainActivity, R.color.yel02)
+                bottomNavAHB.inactiveColor = ContextCompat.getColor(this@MainActivity, R.color.yel01)
             }
             2 -> {
-
+                bottomNavAHB.accentColor = ContextCompat.getColor(this@MainActivity, R.color.pink03)
+                bottomNavAHB.inactiveColor = ContextCompat.getColor(this@MainActivity, R.color.pink02)
             }
             3 -> {
                 bottomNavAHB.accentColor = ContextCompat.getColor(this@MainActivity, R.color.vio07)

@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   xmlns:tools="http://schemas.android.com/tools"
+                                                   android:id="@+id/rootPOV"
+                                                   android:animateLayoutChanges="true"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="match_parent"
+                                                   android:background="@drawable/gd_yel01_yel02">
+
+    <ImageView
+            android:id="@+id/backgroundPatternIMG"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ll_background_pattern"
+        app:layout_constraintVertical_bias="0.0"/>
+
+    <TextView
+            android:id="@+id/screenTitleLBL"
+            style="@style/ScreenTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:text="Menu"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="8dp" app:layout_constraintTop_toTopOf="@+id/guidelinehorizontal"/>
+
+    <!--<ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/backImgButton"
+        app:layout_constraintTop_toTopOf="@id/screenTitleLBL"
+        android:src="@drawable/ic_back"
+        android:background="#56"
+        app:layout_constraintLeft_toLeftOf="@id/screenTitleLBL"/>-->
+
+    <ImageView
+            android:id="@+id/squigglyLineIMG"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="16dp"
+            android:tint="@color/pnk01"
+            app:layout_constraintStart_toStartOf="@+id/screenTitleLBL"
+            app:layout_constraintTop_toBottomOf="@+id/screenTitleLBL"
+            app:srcCompat="@drawable/ic_wiggly_line" />
+
+
+
+
+
+    <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="24dp"
+            android:padding="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:background="@drawable/sh_rounded_rectangle_8dp_white_bg"
+            app:srcCompat="@drawable/ic_shopping_cart"
+            android:id="@+id/buttonCart"
+            android:layout_marginTop="12dp"
+            app:layout_constraintTop_toTopOf="@+id/guidelinehorizontal"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:cropToPadding="true"
+            android:id="@+id/cartStatus"
+            android:src="@drawable/ic_cart_status"
+            app:layout_constraintEnd_toEndOf="@+id/backgroundPatternIMG" android:layout_marginEnd="18dp"
+            android:layout_marginTop="8dp" app:layout_constraintTop_toTopOf="@+id/guidelinehorizontal"
+            android:visibility="invisible"/>
+
+    <androidx.constraintlayout.widget.Guideline
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintGuide_begin="50dp"
+            android:id="@+id/guidelinehorizontal"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:id="@+id/recyViewMenu"
+            android:layout_marginStart="16dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="16dp"
+            android:layout_marginTop="96dp" app:layout_constraintTop_toTopOf="@+id/guidelinehorizontal"
+            android:layout_width="0dp"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+
+        android:id="@+id/linearViewMenuItems"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+         android:layout_marginStart="16dp"
+        android:layout_marginTop="96dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="-26dp"
+        android:background="@drawable/sh_top_half_rounded_rectangle_16dp_white_bg"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guidelinehorizontal"
+        app:layout_constraintVertical_bias="0.84">
+
+
+        <TextView
+            android:id="@+id/textStallNAme"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="0dp"
+            android:ellipsize="end"
+            android:fontFamily="@font/google_sans_medium"
+            android:lines="1"
+            android:paddingTop="14dp"
+            android:paddingBottom="14dp"
+            android:paddingRight="14dp"
+            android:paddingLeft="0dp"
+            android:text="Dassi De ParontheJassi de "
+            android:textAlignment="center"
+            android:textColor="@color/vio07"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="@id/linearViewMenuItems"
+            app:layout_constraintEnd_toEndOf="@id/linearViewMenuItems"
+            app:layout_constraintStart_toEndOf="@id/backButton"
+            app:layout_constraintTop_toTopOf="@id/linearViewMenuItems"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <ImageButton
+            android:id="@+id/backButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="0dp"
+            android:layout_marginEnd="0dp"
+
+            android:background="@drawable/sh_rounded_rectangle_8dp_white_bg"
+            android:padding="16dp"
+            app:srcCompat="@drawable/ic_back"
+            app:layout_constraintBottom_toTopOf="@+id/recyViewMenuItems"
+            app:layout_constraintEnd_toStartOf="@id/textStallNAme"
+
+            app:layout_constraintStart_toStartOf="@+id/linearViewMenuItems"
+            app:layout_constraintTop_toTopOf="@id/linearViewMenuItems"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <androidx.recyclerview.widget.RecyclerView
+
+            android:id="@+id/recyViewMenuItems"
+            android:layout_width="0dp"
+            android:clickable="true"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textStallNAme"
+            app:layout_constraintVertical_bias="1.0" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

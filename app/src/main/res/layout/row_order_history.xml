@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootPOV"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <TextView
+            android:id="@+id/nameLBL"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="104dp"
+            android:backgroundTint="#FFFFFF"
+            android:fontFamily="@font/google_sans_medium"
+            android:lines="1"
+            android:padding="8dp"
+            android:text="The Starry Night Profshow"
+            android:textColor="#FF7979"
+            android:textSize="16sp"
+            android:ellipsize="end"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/rootPOV"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="The Starry Night Profshow" app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintVertical_bias="1.0"/>
+
+    <TextView
+        android:id="@+id/infoLBL"
+        android:layout_width="0dp"
+        android:backgroundTint="#FFFFFF"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="0dp"
+        android:ellipsize="end"
+        android:lines="1"
+        android:text="500x2"
+        android:textAlignment="viewEnd"
+        android:textColor="#FF7979"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/nameLBL"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="500" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

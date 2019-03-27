@@ -10,6 +10,9 @@ import com.anenigmatic.apogee19.screens.events.data.retrofit.EventsApi
 import com.anenigmatic.apogee19.screens.events.data.room.EventsDao
 import com.anenigmatic.apogee19.screens.events.data.storage.FilterStorage
 import com.anenigmatic.apogee19.screens.events.data.storage.FilterStorageImpl
+import com.anenigmatic.apogee19.screens.menu.data.MenuRepository
+import com.anenigmatic.apogee19.screens.menu.data.MenuRepositoryImpl
+import com.anenigmatic.apogee19.screens.menu.data.retrofit.StallsAndMenuApi
 import com.anenigmatic.apogee19.screens.shared.data.UserRepository
 import com.anenigmatic.apogee19.screens.shared.data.UserRepositoryImpl
 import com.anenigmatic.apogee19.screens.shared.data.firebase.UserWatcher
@@ -39,6 +42,12 @@ class AppModule(private val application: Application) {
 
     @Singleton
     @Provides
+    fun providesMenuRepository(sharedPreferences: SharedPreferences, appDatabase: AppDatabase, stallsAndMenuApi: StallsAndMenuApi): MenuRepository {
+        return MenuRepositoryImpl(sharedPreferences, appDatabase, stallsAndMenuApi)
+    }
+
+    @Singleton
+    @Provides
     fun providesEventRepository(filterStorage: FilterStorage, eventsDao: EventsDao, eventsApi: EventsApi, networkDetails: NetworkDetails): EventRepository {
         return EventRepositoryImpl(filterStorage, eventsDao, eventsApi, networkDetails)
     }
@@ -59,6 +68,12 @@ class AppModule(private val application: Application) {
     @Provides
     fun providesUserWatcher(): UserWatcher {
         return UserWatcherImpl()
+    }
+
+    @Singleton
+    @Provides
+    fun providesStallsAndMenuApi(retrofit: Retrofit): StallsAndMenuApi {
+        return retrofit.create(StallsAndMenuApi::class.java)
     }
 
     @Singleton
@@ -132,7 +147,9 @@ class AppModule(private val application: Application) {
     @Singleton
     @Provides
     fun providesAppDatabase(application: Application): AppDatabase {
-        return Room.databaseBuilder(application, AppDatabase::class.java, "apogee.db").build()
+        return Room.databaseBuilder(application, AppDatabase::class.java, "apogee.db")
+            .allowMainThreadQueries()
+            .build()
     }
 
     @Singleton

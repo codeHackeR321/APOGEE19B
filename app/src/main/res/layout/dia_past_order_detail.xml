@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/diaPastOrderLayout"
+    android:layout_width="320dp"
+    android:layout_height="600dp"
+    android:background="@drawable/sh_rounded_rectangle_16dp"
+    android:minWidth="320dp"
+    android:minHeight="600dp">
+
+
+    <TextView
+        android:id="@+id/textViewOrderNo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/google_sans_bold"
+        android:text="Order #133432"
+        android:textColor="@color/yel03"
+        android:textSize="22sp"
+        app:layout_constraintStart_toStartOf="@id/diaPastOrderLayout"
+        app:layout_constraintTop_toTopOf="@id/diaPastOrderLayout" />
+
+    <TextView
+        android:id="@+id/textViewStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="0dp"
+        android:text="COMPLETED"
+        android:textAllCaps="true"
+        android:textColor="@color/grn01"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@id/diaPastOrderLayout"
+        app:layout_constraintTop_toBottomOf="@id/textViewOrderNo" />
+
+    <TextView
+        android:id="@+id/textViewOTP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="0dp"
+        android:text="OTP: 1499"
+        android:textColor="@color/grn01"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@id/textViewStatus"
+        app:layout_constraintTop_toBottomOf="@id/textViewOrderNo" />
+
+    <TextView
+        android:id="@+id/textViewVendorName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:maxLines="1"
+        android:text="Domino's"
+        android:ellipsize="end"
+        android:textColor="#000000"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="@id/diaPastOrderLayout"
+        app:layout_constraintStart_toStartOf="@id/diaPastOrderLayout"
+        app:layout_constraintTop_toBottomOf="@id/textViewStatus" />
+
+    <ImageButton
+        android:id="@+id/closeDialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/sh_rounded_rectangle_08dp"
+        android:padding="24dp"
+        android:src="@drawable/ic_close"
+        app:layout_constraintEnd_toEndOf="@id/diaPastOrderLayout"
+        app:layout_constraintTop_toTopOf="@id/diaPastOrderLayout" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyViewCart"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="0dp"
+        app:layout_constraintEnd_toEndOf="@id/diaPastOrderLayout"
+        app:layout_constraintStart_toStartOf="@id/diaPastOrderLayout"
+        app:layout_constraintTop_toBottomOf="@id/textViewVendorName">
+
+    </androidx.recyclerview.widget.RecyclerView>
+ <TextView
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:id="@+id/textViewTotal"
+     android:layout_marginTop="16dp"
+     android:layout_marginEnd="4dp"
+     app:layout_constraintEnd_toEndOf="@id/diaPastOrderLayout"
+     app:layout_constraintTop_toBottomOf="@id/recyViewCart"
+     android:textAlignment="textEnd"
+     android:textSize="18sp"
+     android:text="Total: \u20B9 10000"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,82 +2,8 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "333cf7ad2f9e3dcc0d0dd6ca48781ec1",
+    "identityHash": "d44617467aa7fbd55b8b32d95ba49a0a",
     "entities": [
-      {
-        "tableName": "Events",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `name` TEXT NOT NULL, `types` TEXT NOT NULL, `spots` TEXT NOT NULL, `about` TEXT NOT NULL, `rules` TEXT NOT NULL, `date` TEXT NOT NULL, `time` TEXT NOT NULL, `duration` INTEGER NOT NULL, `isStarred` INTEGER NOT NULL, PRIMARY KEY(`id`))",
-        "fields": [
-          {
-            "fieldPath": "id",
-            "columnName": "id",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "name",
-            "columnName": "name",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "types",
-            "columnName": "types",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "spots",
-            "columnName": "spots",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "about",
-            "columnName": "about",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "rules",
-            "columnName": "rules",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "date",
-            "columnName": "date",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "time",
-            "columnName": "time",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "duration",
-            "columnName": "duration",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "isStarred",
-            "columnName": "isStarred",
-            "affinity": "INTEGER",
-            "notNull": true
-          }
-        ],
-        "primaryKey": {
-          "columnNames": [
-            "id"
-          ],
-          "autoGenerate": false
-        },
-        "indices": [],
-        "foreignKeys": []
-      },
       {
         "tableName": "stall",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`stallId` INTEGER NOT NULL, `name` TEXT, `description` TEXT, `closed` INTEGER NOT NULL, PRIMARY KEY(`stallId`))",
@@ -314,7 +240,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"333cf7ad2f9e3dcc0d0dd6ca48781ec1\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"d44617467aa7fbd55b8b32d95ba49a0a\")"
     ]
   }
 }

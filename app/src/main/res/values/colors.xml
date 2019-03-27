@@ -12,10 +12,14 @@
     <color name="blu04">#FFC8D1F4</color>
     <color name="blu05">#FF3C8FFF</color>
     <color name="blu06">#FF495FEE</color>
+	<color name="grn01">#108B20</color>
     <color name="gry01">#FF858585</color>
     <color name="gry02">#FFB1B1B1</color>
     <color name="gry03">#FFE7E7E7</color>
+	<color name="gry04">#6C6C6C</color>
     <color name="pnk01">#FFEBA7FF</color>
+    <color name="pink02">#FFCACA</color>
+    <color name="pink03">#F62323</color>
     <color name="vio01">#FF6A1474</color>
     <color name="vio02">#FFCFCAFF</color>
     <color name="vio03">#FF671D86</color>
@@ -28,6 +32,9 @@
     <color name="wht02">#28FFFFFF</color>
     <color name="yel01">#FFFFE0AC</color>
     <color name="yel02">#FFEA9144</color>
+	<color name="yel03">#EEB75B</color>
+    <color name="yel04">#F9EEBC</color>
+    <color name="yel05">#FFC300</color>
 
     <color name="clear">#00FFFFFF</color>
 </resources>
