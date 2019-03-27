@@ -23,12 +23,15 @@ class UserRepositoryImpl(
 ) : UserRepository {
 
     private val avatars = listOf(
-        Avatar(0, "android.resource://com.anenigmatic.apogee19/${R.drawable.ic_google_logo}"),
-        Avatar(1, "android.resource://com.anenigmatic.apogee19/${R.drawable.ic_google_logo}"),
-        Avatar(2, "android.resource://com.anenigmatic.apogee19/${R.drawable.ic_google_logo}"),
-        Avatar(3, "android.resource://com.anenigmatic.apogee19/${R.drawable.ic_google_logo}"),
-        Avatar(4, "android.resource://com.anenigmatic.apogee19/${R.drawable.ic_google_logo}"),
-        Avatar(5, "android.resource://com.anenigmatic.apogee19/${R.drawable.ic_google_logo}")
+        Avatar(0, "android.resource://com.anenigmatic.apogee19/${R.drawable.ic_avatar1}"),
+        Avatar(1, "android.resource://com.anenigmatic.apogee19/${R.drawable.ic_avatar2}"),
+        Avatar(2, "android.resource://com.anenigmatic.apogee19/${R.drawable.ic_avatar3}"),
+        Avatar(3, "android.resource://com.anenigmatic.apogee19/${R.drawable.ic_avatar4}"),
+        Avatar(4, "android.resource://com.anenigmatic.apogee19/${R.drawable.ic_avatar5}"),
+        Avatar(5, "android.resource://com.anenigmatic.apogee19/${R.drawable.ic_avatar6}"),
+        Avatar(6, "android.resource://com.anenigmatic.apogee19/${R.drawable.ic_avatar7}"),
+        Avatar(7, "android.resource://com.anenigmatic.apogee19/${R.drawable.ic_avatar8}"),
+        Avatar(8, "android.resource://com.anenigmatic.apogee19/${R.drawable.ic_avatar9}")
     )
 
 
