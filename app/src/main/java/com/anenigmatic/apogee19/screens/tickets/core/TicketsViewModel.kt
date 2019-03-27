@@ -33,7 +33,6 @@ class TicketsViewModel(private val tRepo: TicketRepository) : ViewModel() {
                     orderData.asMut().postValue(order)
                 },
                 {
-                    throw it
                     orderData.asMut().postValue(UiOrder.ShowWorkingState(listOf()))
                     toastData.asMut().postValue("Something went wrong :/")
                 }
