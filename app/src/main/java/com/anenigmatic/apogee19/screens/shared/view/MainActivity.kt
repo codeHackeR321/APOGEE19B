@@ -37,6 +37,14 @@ class MainActivity : AppCompatActivity() {
         saveInstanceState.putInt("BOTTOM_NAV_CURRENT_ITEM", bottomNavAHB.currentItem)
     }
 
+    override fun onBackPressed() {
+        if(supportFragmentManager.backStackEntryCount == 1) {
+            bottomNavAHB?.colorize(3)
+            bottomNavAHB?.setCurrentItem(3, false)
+        }
+
+        super.onBackPressed()
+    }
 
     private fun setupBottomNavigation(currentItem: Int, useCallback: Boolean) {
         val navigationAdapter = AHBottomNavigationAdapter(this, R.menu.mn_bottom_nav)
