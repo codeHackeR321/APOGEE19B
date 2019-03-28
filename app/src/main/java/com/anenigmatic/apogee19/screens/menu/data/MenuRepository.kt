@@ -16,6 +16,7 @@ interface MenuRepository {
 
     val placeOrderStatus: LiveData<Boolean>
     val showOtpRequestStatus: LiveData<Boolean>
+    var toastMessage : LiveData<String>
 
 
 
@@ -49,6 +50,6 @@ interface MenuRepository {
 
     fun listenStatus()
 
-//    fun refreshPlaceOrderStatus()
+    fun listenToastMessage() : LiveData<String>
 
 }

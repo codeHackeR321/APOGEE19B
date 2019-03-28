@@ -9,7 +9,9 @@ import com.anenigmatic.apogee19.screens.menu.data.retrofit.*
 import com.anenigmatic.apogee19.screens.menu.data.room.*
 import com.anenigmatic.apogee19.screens.shared.data.room.AppDatabase
 import com.anenigmatic.apogee19.screens.menu.data.retrofit.StallAndMenu
+import com.anenigmatic.apogee19.screens.shared.util.SingleLiveEvent
 import com.anenigmatic.apogee19.screens.shared.util.asMut
+import com.anenigmatic.apogee19.screens.shared.util.extractMessage
 import com.example.manish.apogeewallet.screens.menu.data.room.PastOrder
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -30,6 +32,7 @@ class MenuRepositoryImpl(private val prefs: SharedPreferences, database: AppData
     var pastOrderDao = database.pastOrderDao()
     var pastOrderItemDao = database.pastOrderItemsDao()
 
+    override var toastMessage :LiveData<String> = SingleLiveEvent()
     override val placeOrderStatus: LiveData<Boolean> = MutableLiveData()
     override val showOtpRequestStatus: LiveData<Boolean> = MutableLiveData()
 
@@ -108,6 +111,7 @@ class MenuRepositoryImpl(private val prefs: SharedPreferences, database: AppData
 
             }
             override fun onFailure(call: Call<List<StallAndMenu>>, t: Throwable) {
+                toastMessage.asMut().value = t.extractMessage()
                 Log.d("Menu call response" , "" + t.message.toString())
             }
 
@@ -182,16 +186,30 @@ class MenuRepositoryImpl(private val prefs: SharedPreferences, database: AppData
                         refreshPastOrders()
                     } else if(responseCode == 412) {
                         //Stall is closed or Order Item is not available
+                        val json = JSONObject(response.errorBody()?.string())
+
+                        if(json.has("display_message")) {
+                            toastMessage.asMut().value = json.getString("display_message")
+                        }
                         refreshStallAndMenu()
                         Log.d("Test" , "Order Placed UnSuccessfully $responseCode error ${response.errorBody()?.string()}")
                     }
                     else
-                        //Order not successfully placed
+                    {
+                        val json = JSONObject(response.errorBody()?.string())
+
+                        if(json.has("display_message")) {
+                            toastMessage.asMut().value = json.getString("display_message")
+                        }
                         Log.d("Test" , "Order Placed UnSuccessfully $responseCode error ${response.errorBody()?.string()}")
-                }
+
+                    }
+                        //Order not successfully placed
+                    }
 
                 override fun onFailure(call: Call<OrderComfirmation>, t: Throwable) {
                     Log.d("Test" , "Order Placed UnSuccessfully $t")
+                    toastMessage.asMut().value = t.extractMessage()
                     placeOrderStatus.asMut().value = false
                 }
 
@@ -232,6 +250,15 @@ class MenuRepositoryImpl(private val prefs: SharedPreferences, database: AppData
                             pastOrderDao.changeOtpSeenStatus(orderId, true)
 
                         }
+                        else
+                        {
+                            var json = JSONObject(response.errorBody()?.string())
+
+                            if(json.has("display_message")) {
+                                toastMessage.asMut().value = json.getString("display_message")
+                            }
+                        }
+
                         showOtpRequestStatus.asMut().value = false
 
                     }
@@ -239,6 +266,7 @@ class MenuRepositoryImpl(private val prefs: SharedPreferences, database: AppData
                     override fun onFailure(call: Call<Unit>, t: Throwable) {
 
                         Log.d("OTP Response"," ${t.message}")
+                        toastMessage.asMut().value = t.extractMessage()
                         showOtpRequestStatus.asMut().value = false
 
                     }
@@ -304,6 +332,7 @@ class MenuRepositoryImpl(private val prefs: SharedPreferences, database: AppData
 
                 }
                 override fun onFailure(call: Call<List<OrderShell>>, t: Throwable) {
+                    toastMessage.asMut().value = t.extractMessage()
                     Log.d("Menu call response" , "" + t.message.toString())
                 }
             })
@@ -347,6 +376,10 @@ class MenuRepositoryImpl(private val prefs: SharedPreferences, database: AppData
                 }
             })
         }
+    }
+
+    override fun listenToastMessage() : LiveData<String> {
+        return toastMessage
     }
 
 //    override fun refreshPlaceOrderStatus() {

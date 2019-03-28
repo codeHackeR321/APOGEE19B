@@ -11,6 +11,7 @@ import com.anenigmatic.apogee19.screens.menu.data.room.CartItem
 import com.anenigmatic.apogee19.screens.menu.data.room.Stall
 import com.anenigmatic.apogee19.screens.menu.data.room.StallItem
 import com.anenigmatic.apogee19.screens.menu.view.StallListFragment
+import com.anenigmatic.apogee19.screens.shared.util.SingleLiveEvent
 import com.anenigmatic.apogee19.screens.shared.util.asMut
 
 class StallsViewModel(private val repository: MenuRepository) : ViewModel()
@@ -18,6 +19,7 @@ class StallsViewModel(private val repository: MenuRepository) : ViewModel()
     var stallList : LiveData<List<Stall>> = MutableLiveData()
     var menuList : LiveData<List<StallItem>> = MutableLiveData()
     var cartList : LiveData<List<CartItem>> = MutableLiveData()
+    var message : LiveData<String> = SingleLiveEvent()
 
     init
     {
@@ -31,6 +33,7 @@ class StallsViewModel(private val repository: MenuRepository) : ViewModel()
         }*/
         Log.e("Test" , "Repository Created")
         repository.listenStatus()
+        message = repository.toastMessage
         //repository = MenuRepositoryImpl(instance.currentContext!!)
     }
 

@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.anenigmatic.apogee19.screens.menu.data.MenuRepository
 import com.anenigmatic.apogee19.screens.menu.data.room.OrderItem
 import com.anenigmatic.apogee19.screens.menu.data.room.Stall
+import com.anenigmatic.apogee19.screens.shared.util.SingleLiveEvent
 import com.example.manish.apogeewallet.screens.menu.data.room.PastOrder
 
 class OrderHistoryViewModel(private val repository: MenuRepository): ViewModel(){
@@ -14,6 +15,11 @@ class OrderHistoryViewModel(private val repository: MenuRepository): ViewModel()
     var orderList: LiveData<List<PastOrder>> = repository.getOrders()
     var orderItemList: LiveData<List<OrderItem>> = MediatorLiveData()
     var otpStatus = repository.showOtpRequestStatus
+    var message : LiveData<String> = SingleLiveEvent()
+
+    init {
+        message = repository.toastMessage
+    }
 
     fun getOrderListFromServer(){
         repository.refreshPastOrders()

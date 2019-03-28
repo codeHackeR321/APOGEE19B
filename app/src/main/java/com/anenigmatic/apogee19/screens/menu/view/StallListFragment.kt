@@ -76,6 +76,10 @@ class StallListFragment : Fragment() {
                     cartStatus.visibility = View.VISIBLE
             })
 
+            model.message.observe(this , Observer {
+                Toast.makeText(context , it!! , Toast.LENGTH_SHORT).show()
+            })
+
         } else {
             Toast.makeText(currentContext , "Please Check your Internet Connection" , Toast.LENGTH_LONG).show()
         }

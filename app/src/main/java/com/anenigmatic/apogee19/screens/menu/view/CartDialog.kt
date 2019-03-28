@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -58,6 +59,10 @@ class CartDialog: DialogFragment() {
                 progressBar.visibility = View.GONE
 
             }
+        })
+
+        viewModel.message.observe(this , androidx.lifecycle.Observer {
+            Toast.makeText(context , it!! , Toast.LENGTH_LONG).show()
         })
 
         return view

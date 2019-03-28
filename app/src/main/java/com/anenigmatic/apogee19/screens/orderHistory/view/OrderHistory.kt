@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -76,6 +77,10 @@ class OrderHistory : Fragment() {
                 progressBarHistory.visibility = View.GONE
                 activity!!.window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
             }
+        })
+
+        model.message.observe(this , Observer {
+            Toast.makeText(context , it , Toast.LENGTH_LONG).show()
         })
 
         super.onStart()
