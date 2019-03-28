@@ -12,7 +12,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/view" app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toStartOf="@id/otpbutton"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent">
 
         <TextView
@@ -23,7 +23,7 @@
                 android:layout_marginTop="24dp"
                 android:fontFamily="@font/google_sans_bold"
                 android:text="Order #133432"
-                android:textColor="@color/yel03"
+                android:textColor="@color/red4"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="@id/view"
                 app:layout_constraintTop_toTopOf="@id/view"/>
@@ -52,17 +52,22 @@
                 app:layout_constraintStart_toStartOf="@id/view"
                 app:layout_constraintTop_toBottomOf="@id/textViewOrderNo"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
+
     <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/otpbutton"
-            android:layout_marginEnd="16dp"
+            android:background="@drawable/sh_rounded_rectangle_08dp"
+            android:layout_marginEnd="32dp"
+            android:textColor="#ffffff"
+            android:backgroundTint="@color/red4"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:textAlignment="center"
             android:textSize="20sp"
-            android:text="OTP" android:background="#0000ffff" android:clickable="true"/>
+            android:text="OTP"
+            android:clickable="true"/>
 
 
 

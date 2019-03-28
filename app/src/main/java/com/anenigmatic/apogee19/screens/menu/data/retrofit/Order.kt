@@ -9,6 +9,6 @@ data class Order(
     @field:Json(name ="price") var price: Int,
     @field:Json(name ="otp") var otp: Int,
     @field:Json(name = "status") var status: String,
-    var showotp: Boolean = false,
+    @field:Json(name = "otp_seen") var showotp: Boolean,
     @field:Json(name ="items") var menu: List<ResponseOrderItem>
 )

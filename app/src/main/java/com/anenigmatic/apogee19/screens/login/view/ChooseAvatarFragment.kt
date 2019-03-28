@@ -38,7 +38,6 @@ class ChooseAvatarFragment : Fragment(), AvatarsAdapter.ClickListener {
                 is UiOrder.ShowLoadingState  -> showLoadingState()
                 is UiOrder.ShowWorkingState  -> showWorkingState(order.avatars, order.chosenAvatarId)
                 is UiOrder.GoToDesiredScreen -> {
-                    Toast.makeText(context, "Avatar chosen successfully", Toast.LENGTH_SHORT).show()
                     activity!!.supportFragmentManager.popBackStack()
                 }
             }

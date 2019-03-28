@@ -43,6 +43,7 @@ class ChooseAvatarViewModel(private val uRepo: UserRepository) : ViewModel() {
                     orderData.asMut().postValue(order)
                 },
                 {
+                    throw it
                     toastData.asMut().postValue(it.extractMessage("Something went wrong. Please restart the app"))
                 }
             )

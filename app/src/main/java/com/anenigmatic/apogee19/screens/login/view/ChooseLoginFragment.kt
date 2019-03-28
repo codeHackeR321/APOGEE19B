@@ -23,6 +23,7 @@ class ChooseLoginFragment : Fragment() {
     private val googleSignInClient by lazy {
         val signInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken("765197201085-j6q594d8v56sfmoq401avvmbthorv21s.apps.googleusercontent.com")
+            .requestEmail()
             .build()
 
         GoogleSignIn.getClient(requireActivity(), signInOptions)

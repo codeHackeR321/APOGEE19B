@@ -1,5 +1,6 @@
 package com.anenigmatic.apogee19.screens.orderHistory.view
 
+import android.graphics.PorterDuff
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -72,16 +73,24 @@ class OrderHistoryAdapter(private val fragment : OrderHistory) : RecyclerView.Ad
 
         when(holder.textViewStatus.text)
         {
-            "Declined" -> holder.textViewStatus.setTextColor(fragment.resources.getColor(R.color.pink03))
+            "Declined" -> holder.textViewStatus.setTextColor(fragment.resources.getColor(R.color.red4))
         }
 
         holder.textViewTotal.text = "\u20B9 "+dataset[position].price.toString()
 
         if (dataset[position].showOtp){
 
+            holder.textViewOTP.background.setColorFilter(fragment.resources.getColor(R.color.wht01) , PorterDuff.Mode.SRC_ATOP)
+            holder.textViewOTP.setTextColor(fragment.resources.getColor(R.color.red4))
             Log.d("Test" , "Entered if condition in adapter")
             holder.textViewOTP.text = dataset[position].otp.toString()
 
+        }
+        else
+        {
+            holder.textViewOTP.text = "OTP"
+            holder.textViewOTP.background.setColorFilter(fragment.resources.getColor(R.color.red4) , PorterDuff.Mode.SRC_ATOP)
+            holder.textViewOTP.setTextColor(fragment.resources.getColor(R.color.wht01))
         }
     }
 

@@ -128,7 +128,7 @@ class AppModule(private val application: Application) {
     @Provides
     fun providesRetrofit(moshi: Moshi): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("http://test.bits-apogee.org/")
+            .baseUrl("https://bits-apogee.org/")
             .client(OkHttpClient().newBuilder().addInterceptor(BaseInterceptor()).build())
             .addConverterFactory(MoshiConverterFactory.create(moshi))
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())

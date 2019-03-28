@@ -32,7 +32,7 @@ class UserWatcherImpl : UserWatcher {
                         val coins = dataSnapshot.child("tokens").value as Long
                         userDataSubject.onNext(UserWatcherData(balance.toInt(), coins.toInt()))
                     } catch(e: Exception) {
-                        userDataSubject.onError(e)
+
                     }
                 }
 

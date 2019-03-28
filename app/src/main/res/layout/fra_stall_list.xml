@@ -46,7 +46,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="2dp"
             android:layout_marginTop="16dp"
-            android:tint="@color/pnk01"
+            android:tint="@color/wht01"
             app:layout_constraintStart_toStartOf="@+id/screenTitleLBL"
             app:layout_constraintTop_toBottomOf="@+id/screenTitleLBL"
             app:srcCompat="@drawable/ic_wiggly_line" />

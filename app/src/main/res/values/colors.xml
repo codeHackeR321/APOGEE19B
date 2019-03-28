@@ -35,6 +35,7 @@
 	<color name="yel03">#EEB75B</color>
     <color name="yel04">#F9EEBC</color>
     <color name="yel05">#FFC300</color>
+    <color name="red4">#CC3826</color>
 
     <color name="clear">#00FFFFFF</color>
 </resources>
