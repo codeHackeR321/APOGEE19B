@@ -77,19 +77,19 @@
         android:text="Map"
         android:textColor="@color/wht01"
         android:textSize="26sp"
-        app:layout_constraintBottom_toTopOf="@+id/showN2oVotingBTN"
+        app:layout_constraintBottom_toTopOf="@+id/showSponsorsBTN"
         app:layout_constraintStart_toStartOf="@+id/showDevelopersBTN"
         app:layout_constraintTop_toBottomOf="@+id/showDevelopersBTN" />
 
     <TextView
-        android:id="@+id/showN2oVotingBTN"
+        android:id="@+id/showSponsorsBTN"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:fontFamily="@font/google_sans_medium"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
-        android:text="N2O Voting"
+        android:text="Sponsors"
         android:textColor="@color/wht01"
         android:textSize="26sp"
         app:layout_constraintBottom_toTopOf="@+id/showNotificationsBTN"
@@ -108,8 +108,8 @@
         android:textColor="@color/wht01"
         android:textSize="26sp"
         app:layout_constraintBottom_toTopOf="@+id/showEpcBlogBTN"
-        app:layout_constraintStart_toStartOf="@+id/showN2oVotingBTN"
-        app:layout_constraintTop_toBottomOf="@+id/showN2oVotingBTN" />
+        app:layout_constraintStart_toStartOf="@+id/showSponsorsBTN"
+        app:layout_constraintTop_toBottomOf="@+id/showSponsorsBTN" />
 
     <TextView
         android:id="@+id/showEpcBlogBTN"

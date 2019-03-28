@@ -5,19 +5,24 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.anenigmatic.apogee19.R
 import com.anenigmatic.apogee19.screens.menu.core.CartViewModel
 import com.anenigmatic.apogee19.screens.menu.core.CartViewModelFactory
 import com.anenigmatic.apogee19.screens.menu.data.room.CartItem
+import com.anenigmatic.apogee19.screens.shared.util.asMut
 import kotlinx.android.synthetic.main.dia_cart.*
 import kotlinx.android.synthetic.main.dia_cart.view.*
+import kotlinx.android.synthetic.main.row_order_list.view.*
 import java.util.*
 
 class CartDialog: DialogFragment() {
@@ -31,6 +36,30 @@ class CartDialog: DialogFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view  = inflater.inflate(R.layout.dia_cart, container, false)
         currentContect = view.context
+
+        var cartAdapter= CartAdapter(listOf(), this)
+        view!!.recyViewCart.apply {
+            adapter= cartAdapter
+            layoutManager= LinearLayoutManager(view!!.context)
+        }
+
+        viewModel.placeOrderStatus.observe( viewLifecycleOwner, androidx.lifecycle.Observer {
+            if (it) {
+                Log.d("place order",it.toString())
+                recyViewCart.visibility = View.GONE
+                textViewTotal.visibility = View.GONE
+                buttonPay.visibility = View.GONE
+                progressBar.visibility = View.VISIBLE
+            } else {
+                Log.d("place order",it.toString())
+                recyViewCart.visibility = View.VISIBLE
+                textViewTotal.visibility = View.VISIBLE
+                buttonPay.visibility = View.VISIBLE
+                progressBar.visibility = View.GONE
+
+            }
+        })
+
         return view
     }
 
@@ -43,15 +72,16 @@ class CartDialog: DialogFragment() {
 
         viewModel.cartList.observe(this , androidx.lifecycle.Observer {
             var total = 0
-            var cartAdapter= CartAdapter(it!! , this)
-            view!!.recyViewCart.apply {
-                adapter= cartAdapter
-                layoutManager= LinearLayoutManager(view!!.context)
-            }
+
             it.forEach {
                 total += it.quantity*it.price
             }
             textViewTotal.text = "Total : \u20B9 $total"
+
+            var cartAdapter= CartAdapter(it, this)
+            view!!.recyViewCart.apply {
+                adapter= cartAdapter
+            }
         })
 
         view!!.closeDialog.setOnClickListener {

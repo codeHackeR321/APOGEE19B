@@ -11,26 +11,23 @@ import com.example.manish.apogeewallet.screens.menu.data.room.PastOrder
 
 class OrderHistoryViewModel(private val repository: MenuRepository): ViewModel(){
 
-    var orderList: LiveData<List<PastOrder>> = MutableLiveData()
+    var orderList: LiveData<List<PastOrder>> = repository.getOrders()
     var orderItemList: LiveData<List<OrderItem>> = MediatorLiveData()
+    var otpStatus = repository.showOtpRequestStatus
 
     fun getOrderListFromServer(){
-
         repository.refreshPastOrders()
-        orderList = repository.getOrders()
-
     }
 
     fun getOrderListForOrder(orderId: Int){
-
         orderItemList = repository.getOrderItems(orderId)
-
     }
 
     fun getStallListFromServer(): LiveData<List<Stall>>
     {
         return repository.getStalls()
     }
+
 
     fun onOTPClicked(orderId: Int){
 

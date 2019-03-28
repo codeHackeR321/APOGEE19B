@@ -24,7 +24,8 @@ class AddMoneyDialog : DialogFragment() {
         val rootPOV = inflater.inflate(R.layout.dia_add_money, container, false)
 
         rootPOV.confirmBTN.setOnClickListener {
-            (parentFragment as? OnEnterAmountListener)?.onEnterAmount(rootPOV.amountTXT.toString().toInt())
+            (parentFragment as? OnEnterAmountListener)?.onEnterAmount(rootPOV.amountTXT.text.toString().toInt())
+            dismiss()
         }
 
         return rootPOV

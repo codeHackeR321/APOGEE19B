@@ -4,10 +4,12 @@ import android.content.SharedPreferences
 import android.preference.PreferenceManager
 import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.anenigmatic.apogee19.screens.menu.data.retrofit.*
 import com.anenigmatic.apogee19.screens.menu.data.room.*
 import com.anenigmatic.apogee19.screens.shared.data.room.AppDatabase
 import com.anenigmatic.apogee19.screens.menu.data.retrofit.StallAndMenu
+import com.anenigmatic.apogee19.screens.shared.util.asMut
 import com.example.manish.apogeewallet.screens.menu.data.room.PastOrder
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -27,6 +29,14 @@ class MenuRepositoryImpl(private val prefs: SharedPreferences, database: AppData
     var cartItemDao = database.cartItemDao()
     var pastOrderDao = database.pastOrderDao()
     var pastOrderItemDao = database.pastOrderItemsDao()
+
+    override val placeOrderStatus: LiveData<Boolean> = MutableLiveData()
+    override val showOtpRequestStatus: LiveData<Boolean> = MutableLiveData()
+
+    init {
+        showOtpRequestStatus.asMut().value = false
+        placeOrderStatus.asMut().value = false
+    }
 
    /* @Volatile
     private var soleInstance : MenuRepositoryImpl? = null
@@ -140,6 +150,7 @@ class MenuRepositoryImpl(private val prefs: SharedPreferences, database: AppData
 //            requestBody.getJSONObject("orderdict").getJSONObject(stallId).put(itemId, cartItem.quantity)
 //        }
 
+        placeOrderStatus.asMut().value = true
         var cartItemList = cartItemDao.getCart()
         var orderItems = HashMap<String,HashMap<String,Int>>()
         var cartItemStallId = ""
@@ -162,18 +173,26 @@ class MenuRepositoryImpl(private val prefs: SharedPreferences, database: AppData
                 override fun onResponse(call: Call<OrderComfirmation>, response: Response<OrderComfirmation>) {
                     Log.d("Test",call.request().body().toString())
                     responseCode = response.code()
+                    placeOrderStatus.asMut().value = false
                     if (responseCode == 200)
                     {
+                        //Order placed successfully
                         cartItemDao.deleteAll()
-                        Log.d("Test" , "Order Placed Sucessfully")
+                        Log.d("Test" , "Order Placed Successfully")
+                        refreshPastOrders()
+                    } else if(responseCode == 412) {
+                        //Stall is closed or Order Item is not available
+                        refreshStallAndMenu()
+                        Log.d("Test" , "Order Placed UnSuccessfully $responseCode error ${response.errorBody()?.string()}")
                     }
                     else
-                        Log.d("Test" , "Order Placed UnSucessfully $responseCode error ${response.errorBody()?.string()}")
+                        //Order not successfully placed
+                        Log.d("Test" , "Order Placed UnSuccessfully $responseCode error ${response.errorBody()?.string()}")
                 }
 
                 override fun onFailure(call: Call<OrderComfirmation>, t: Throwable) {
-                    Log.d("Test" , "Order Placed UnSucessfully $t")
-                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                    Log.d("Test" , "Order Placed UnSuccessfully $t")
+                    placeOrderStatus.asMut().value = false
                 }
 
             })
@@ -196,6 +215,8 @@ class MenuRepositoryImpl(private val prefs: SharedPreferences, database: AppData
 
     override fun changeOrderOtpStatus(orderId: Int) {
 
+        showOtpRequestStatus.asMut().value = true
+
         val requestBody = JSONObject().apply {
             put("order_id", orderId)
         }.toRequestBody()
@@ -209,12 +230,17 @@ class MenuRepositoryImpl(private val prefs: SharedPreferences, database: AppData
                         if(response.code() == 200) {
                             Log.d("Test" , "Called change otp status")
                             pastOrderDao.changeOtpSeenStatus(orderId, true)
+
                         }
+                        showOtpRequestStatus.asMut().value = false
+
                     }
 
                     override fun onFailure(call: Call<Unit>, t: Throwable) {
 
                         Log.d("OTP Response"," ${t.message}")
+                        showOtpRequestStatus.asMut().value = false
+
                     }
                 })
         }
@@ -296,21 +322,23 @@ class MenuRepositoryImpl(private val prefs: SharedPreferences, database: AppData
 
         if (userId != -1L) {
             if(isBITSian)
-                key = "bitsian- "+userId
+                key = "bitsian - "+userId
             else
-                key = "participant- "+userId
+                key = "participant - "+userId
 
             Log.d("Test Key" , "Key = $key")
 
-            FirebaseDatabase.getInstance().getReference().child(key).addValueEventListener(object: ValueEventListener{
+            FirebaseDatabase.getInstance().reference.child("users").child(key).addValueEventListener(object: ValueEventListener{
 
                 override fun onDataChange(p0: DataSnapshot) {
-                    if(p0.hasChild("orders"))
-                    {
-                        p0.child("orders").children.forEach{
-                            Log.d("Firebase" , "order $it")
-                            pastOrderDao.changeStatus(Integer.parseInt(it.key),it.value.toString())
-                        }
+                    if(p0.hasChild("orders")) {
+                        p0.child("orders").children.forEach{ orderShell ->
+                            orderShell.children.forEach { order ->
+                                    Log.d("Apogee19Log" , "order = $order")
+                                    pastOrderDao.changeStatus(Integer.parseInt(order.key), order.value.toString())
+                                    Log.d("Apogee19Log", "statusCode = " + order.value.toString())
+                                }
+                            }
                     }
                 }
 
@@ -320,4 +348,8 @@ class MenuRepositoryImpl(private val prefs: SharedPreferences, database: AppData
             })
         }
     }
+
+//    override fun refreshPlaceOrderStatus() {
+//        placeOrderStatus.asMut().value =
+//    }
 }

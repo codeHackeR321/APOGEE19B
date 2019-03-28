@@ -14,7 +14,13 @@ import com.example.manish.apogeewallet.screens.menu.data.room.PastOrder
 import kotlinx.android.synthetic.main.row_order_list.view.*
 
 
-class OrderHistoryAdapter(private var dataset : List<PastOrder>, private val fragment : OrderHistory) : RecyclerView.Adapter<OrderHistoryAdapter.MyViewHolder>() {
+class OrderHistoryAdapter(private val fragment : OrderHistory) : RecyclerView.Adapter<OrderHistoryAdapter.MyViewHolder>() {
+
+    var dataset = listOf<PastOrder>()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
     class MyViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         var textViewOrderNo: TextView = view.findViewById(com.anenigmatic.apogee19.R.id.textViewOrderNo)

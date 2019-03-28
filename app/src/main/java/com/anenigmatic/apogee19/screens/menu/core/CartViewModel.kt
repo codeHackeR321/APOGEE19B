@@ -13,18 +13,7 @@ class CartViewModel(private val repository: MenuRepository) : ViewModel()
 {
     var cartList : LiveData<List<CartItem>> = MutableLiveData<List<CartItem>>()
 
-    init
-    {
-        /* Log.d("Test" , "Entered init")
-         try {
-             repository = MenuRepositoryImpl(instance.currentContext!!)
-         }
-         catch (e : Exception)
-         {
-             repository = MenuRepositoryImpl(instance.currentContext!!).getInstance()
-         }*/
-        //repository = MenuRepositoryImpl(instance.currentContect!!)
-    }
+    var placeOrderStatus: LiveData<Boolean> = repository.placeOrderStatus
 
     fun getCartItems()
     {

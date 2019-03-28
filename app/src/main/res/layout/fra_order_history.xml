@@ -42,6 +42,20 @@
         app:layout_constraintTop_toBottomOf="@+id/screenTitleLBL"
         app:srcCompat="@drawable/ic_wiggly_line" />
 
+    <ProgressBar
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/progressBarHistory" android:layout_marginTop="8dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp" android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:visibility="gone" android:indeterminate="true"
+            android:indeterminateTint="@color/yel02"/>
+
 
     <androidx.constraintlayout.widget.Guideline
         android:orientation="horizontal"
@@ -55,6 +69,7 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:id="@+id/recyViewMenu"
         android:layout_marginStart="16dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="16dp"
         android:layout_marginTop="96dp" app:layout_constraintTop_toTopOf="@+id/guidelinehorizontal"

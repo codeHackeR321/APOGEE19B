@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -27,7 +28,7 @@ class OrderHistory : Fragment() {
         ViewModelProviders.of(this, OrderHistoryViewModelFactory())[OrderHistoryViewModel::class.java]
     }
     var observer : Observer<List<OrderItem>>? = null
-    var list : List<PastOrder> = ArrayList()
+    var list : ArrayList<PastOrder> = ArrayList()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -40,6 +41,8 @@ class OrderHistory : Fragment() {
                 .commitAllowingStateLoss()
         }
 
+        view.recyViewMenu.adapter = OrderHistoryAdapter(this)
+
         currentContext = view.context
         return view
     }
@@ -51,15 +54,28 @@ class OrderHistory : Fragment() {
             model.orderItemList.removeObserver(observer!!)
 
         model.getOrderListFromServer()
+
         model.orderList.observe(this, Observer {
 
-            Log.d("Testing","model.orderList observed")
-            if (list.isEmpty()) {
-                recyViewMenu.adapter = OrderHistoryAdapter(it , this)
-                recyViewMenu.layoutManager = LinearLayoutManager(currentContext)
+            Log.d("Testing","model.orderList observed $it:")
+            (recyViewMenu.adapter as OrderHistoryAdapter).dataset = it.reversed()
+
+            list.clear()
+            list.addAll(ArrayList(it))
+        })
+
+        model.otpStatus.observe(this , Observer {
+            if (it)
+            {
+                progressBarHistory.bringToFront()
+                progressBarHistory.visibility = View.VISIBLE
+                activity!!.window.setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE , WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
             }
-            recyViewMenu.adapter!!.notifyDataSetChanged()
-            list = ArrayList(it)
+            else
+            {
+                progressBarHistory.visibility = View.GONE
+                activity!!.window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+            }
         })
 
         super.onStart()
